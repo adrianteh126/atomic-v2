@@ -1,0 +1,26 @@
+{
+  "name": "atomic-v2",
+  "version": "1.0.0",
+  "description": "WIF2003 Web Programming Project, T2 (#1) TO-DO-TEAM",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server/server.js"
+  },
+  "author": "To-Do-Team",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "express": "^4.18.2",
+    "mongodb": "^5.5.0",
+    "vue": "^3.3.2",
+    "vue-router": "^4.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adrianteh126/atomic-v2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/adrianteh126/atomic-v2/issues"
+  },
+  "homepage": "https://github.com/adrianteh126/atomic-v2#readme"
+}

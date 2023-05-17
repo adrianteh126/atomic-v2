@@ -1,0 +1,127 @@
+/* Pedefined value for font-size, font-weight, color, margin*/
+:root {
+  margin: 0;
+  padding: 0;
+
+  /* font family */
+  --body-font--: "Exo 2", sans-serif;
+  --dark-color: #1c1d22;
+  --light-color: #f3f3f3;
+  --yellow-color: #fcf201;
+  --purple-color: #6f63ad;
+  --light-red-color: #ff7979;
+  --light-orange-color: #ffa048;
+  --light-green-color: #78d700;
+
+  /* .5rem = 8px, 1rem = 16px, 1.5rem = 24px */
+  /* --extra-big-font-size: 4rem;
+  --big-font-size: 2rem;
+  --h1-font-size: 1.5rem;
+  --h2-font-size: 1.25rem;
+  --h3-font-size: 1.125rem;
+  --normal-font-size: 0.938rem;
+  --small-font-size: 0.813rem;
+  --smaller-font-size: 0.75rem; */
+
+  /* font weight */
+  /* --font-medium: 500;
+  --font-semi-bold: 600; */
+
+  /* margin value(for margin)*/
+  /* .25rem = 4px, .5rem = 8px, .75rem = 12px ... */
+  /* --mb-0-25: 0.25rem;
+  --mb-0-5: 0.5rem;
+  --mb-0-75: 0.75rem;
+  --mb-1: 1rem;
+  --mb-1-5: 1.5rem;
+  --mb-2: 2rem;
+  --mb-2-5: 2.5rem;
+  --mb-3: 3rem; */
+
+  /* device max width : small/medium/large/extralarge */
+  /* device screen size for reference */
+  /*    sm-screen: 575.5px;
+          md-screen: 767.5px;
+          lg-screen: 991.5px;
+          el-screen: 1199.5px; */
+}
+
+/* ================================= Landing Page (index.html) =================================================== */
+
+/* Header(Navbar) */
+.logo-title {
+  font-family: "Arial", sans-serif;
+  font-weight: 700;
+}
+
+#body {
+  height: 100%;
+}
+
+.page {
+  height: calc(100vh - 63px);
+}
+
+.side-columns {
+  padding-top: 63px;
+}
+
+.vertical-line-left {
+  border-right: 1px solid black;
+  height: calc((100vh - 63px) * 0.17);
+  margin-right: 2px;
+}
+
+.vertical-line-right {
+  border-left: 1px solid black;
+  height: calc((100vh - 63px) * 0.17);
+  margin-left: 2px;
+}
+
+.page-indicator > ul > li {
+  transform: rotate(90deg);
+}
+
+.fp-watermark {
+  display: none;
+}
+
+/* == Page 2 ==  */
+.profile-pic div img {
+  width: 180px;
+  border-radius: 10%;
+}
+
+/* ================================= login.html & register.html =================================================== */
+
+.btn1 {
+  border: none;
+  outline: none;
+  height: 50px;
+  width: 100%;
+  background-color: black;
+  color: white;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.btn1:hover {
+  background: white;
+  border: 1px solid;
+  color: black;
+}
+
+.btn2 {
+  border: none;
+  outline: none;
+  height: 50px;
+  width: 100%;
+  background-color: red;
+  color: white;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.btn2:hover {
+  background: white;
+  border: 1px solid;
+  color: black;
+}
