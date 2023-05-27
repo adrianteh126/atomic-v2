@@ -21,9 +21,6 @@ modeSwitch.addEventListener("click", () => {
     }
 });
 
-
-
-
 // Modify Task Information function
 var currentCard;
 $(document).ready(function () {
@@ -73,7 +70,6 @@ $(document).ready(function () {
 
     // Handle the save button in the modal
     $('#modalSaveBtn').click(function () {
-
         var modifiedTaskName = $('#modalTaskName').val();
         var modifiedTaskDesc = $('#modalTaskDesc').val();
         var modifiedTaskProgress = $('#modalTaskProgress').val();
@@ -142,9 +138,6 @@ $(document).ready(function () {
         currentCard = null;
     });
 });
-
-
-
 
 //Add task function
 //hard code part, might change later

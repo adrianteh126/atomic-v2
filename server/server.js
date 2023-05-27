@@ -17,6 +17,10 @@ app.get("/login.html", function (req, res) {
     res.sendFile(path.join(__dirname, "login.html"));
 })
 
+app.get("/register.html", function (req, res) {
+    res.sendFile(path.join(__dirname, "register.html"));
+})
+
 app.get("/dashboard.html", function (req, res) {
     res.sendFile(path.join(__dirname, "dashboard.html"));
 })
