@@ -13,19 +13,23 @@ app.get("/", function (req, res) {
     res.sendFile(path.join(__dirname, "index.html"));
 })
 
-app.get("/login.html", function (req, res) {
+app.get("/login", function (req, res) {
     res.sendFile(path.join(__dirname, "login.html"));
 })
 
-app.get("/register.html", function (req, res) {
+app.get("/register", function (req, res) {
     res.sendFile(path.join(__dirname, "register.html"));
 })
 
-app.get("/dashboard.html", function (req, res) {
+app.get("/dashboard", function (req, res) {
     res.sendFile(path.join(__dirname, "dashboard.html"));
 })
 
-app.get("/settings.html", function (req, res) {
+app.get("/statistic", function (req, res) {
+    res.sendFile(path.join(__dirname, "statistic.html"));
+})
+
+app.get("/settings", function (req, res) {
     res.sendFile(path.join(__dirname, "settings.html"));
 })
 
