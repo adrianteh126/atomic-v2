@@ -1,9 +1,32 @@
 // Packages
 const express = require("express");
 const path = require("path");
+const mongoose = require("mongoose")
+const bodyParser = require("body-parser")
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
+
+// Handle CORS + middleware
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE"); // If using .fetch and not axios
+  res.header("Access-Control-Allow-Headers", "auth-token, Origin, X-Requested-With, Content-Type, Accept");
+  next();
+})
+
+// database 
+const uri = "mongodb+srv://admin:admin@cluster0.kz0vhkq.mongodb.net/?retryWrites=true&w=majority";
+mongoose.connect(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => {
+  console.log("MongoDB connected")
+})
+.catch(err => console.log(err))
+
+app.use(bodyParser.json())
 
 // Serve static files from the "public" folder
 app.use(express.static(path.join(__dirname, "public")));
@@ -13,23 +36,15 @@ app.get("/", function (req, res) {
     res.sendFile(path.join(__dirname, "index.html"));
 })
 
-app.get("/login", function (req, res) {
+app.get("/login.html", function (req, res) {
     res.sendFile(path.join(__dirname, "login.html"));
 })
 
-app.get("/register", function (req, res) {
-    res.sendFile(path.join(__dirname, "register.html"));
-})
-
-app.get("/dashboard", function (req, res) {
+app.get("/dashboard.html", function (req, res) {
     res.sendFile(path.join(__dirname, "dashboard.html"));
 })
 
-app.get("/statistic", function (req, res) {
-    res.sendFile(path.join(__dirname, "statistic.html"));
-})
-
-app.get("/settings", function (req, res) {
+app.get("/settings.html", function (req, res) {
     res.sendFile(path.join(__dirname, "settings.html"));
 })
 
@@ -41,6 +56,12 @@ app.get("/settings", function (req, res) {
 //     res.send(a + " + " + b + " = " + sum);
 
 // })
+// routes
+const TodosRoute = require('./routes/Todos');
+  app.use('/todos', TodosRoute)
+
+const UsersRoute = require('./routes/Users');
+  app.use('/users', UsersRoute)
 
 // 404 Error Handler
 app.use((req, res) => {
@@ -57,4 +78,3 @@ app.use((req, res) => {
 app.listen(3000, function () {
     console.log("Server started on port 3000");
 })
-
