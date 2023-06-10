@@ -8,7 +8,7 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 
 // Handle CORS + middleware
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE"); // If using .fetch and not axios
   res.header("Access-Control-Allow-Headers", "auth-token, Origin, X-Requested-With, Content-Type, Accept");
@@ -21,10 +21,10 @@ mongoose.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
-.then(() => {
-  console.log("MongoDB connected")
-})
-.catch(err => console.log(err))
+  .then(() => {
+    console.log("MongoDB connected")
+  })
+  .catch(err => console.log(err))
 
 app.use(bodyParser.json())
 
@@ -33,19 +33,23 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Routing
 app.get("/", function (req, res) {
-    res.sendFile(path.join(__dirname, "index.html"));
+  res.sendFile(path.join(__dirname, "index.html"));
 })
 
-app.get("/login.html", function (req, res) {
-    res.sendFile(path.join(__dirname, "login.html"));
+app.get("/login", function (req, res) {
+  res.sendFile(path.join(__dirname, "login.html"));
 })
 
-app.get("/dashboard.html", function (req, res) {
-    res.sendFile(path.join(__dirname, "dashboard.html"));
+app.get("/dashboard", function (req, res) {
+  res.sendFile(path.join(__dirname, "dashboard.html"));
 })
 
-app.get("/settings.html", function (req, res) {
-    res.sendFile(path.join(__dirname, "settings.html"));
+app.get("/settings", function (req, res) {
+  res.sendFile(path.join(__dirname, "settings.html"));
+})
+
+app.get("/statistic", function (req, res) {
+  res.sendFile(path.join(__dirname, "statistic.html"));
 })
 
 // Retrive and calculate from POST method 
@@ -58,14 +62,14 @@ app.get("/settings.html", function (req, res) {
 // })
 // routes
 const TodosRoute = require('./routes/Todos');
-  app.use('/todos', TodosRoute)
+app.use('/todos', TodosRoute)
 
 const UsersRoute = require('./routes/Users');
-  app.use('/users', UsersRoute)
+app.use('/users', UsersRoute)
 
 // 404 Error Handler
 app.use((req, res) => {
-    res.status(404).send('<h1>404 Error: Page Not Found</h1>');
+  res.status(404).send('<h1>404 Error: Page Not Found</h1>');
 });
 
 // // Way to retrive data 
@@ -76,5 +80,5 @@ app.use((req, res) => {
 // App listening on port 3000
 // Can be access by localhost:3000 on browser
 app.listen(3000, function () {
-    console.log("Server started on port 3000");
+  console.log("Server started on port 3000");
 })
