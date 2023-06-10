@@ -8,6 +8,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/', async (req, res) => {
   const todos = await Todo.find();
   res.json(todos);
+  console.log('Route : Get all todos');
 });
 
 // Create new Todo
@@ -15,7 +16,6 @@ app.post('/new', async (req, res) => {
   // Generate a new ObjectId
   const newTodo = new Todo({
     //user_id: '60a8c2aeed439d001f28cadd', // Replace with the actual user ID
-
     t_name: 'Complete assignment',
     t_description: 'Finish the programming task',
     t_progress: 0,
@@ -23,10 +23,11 @@ app.post('/new', async (req, res) => {
     t_priority: 'High',
     t_status: 'To do',
   });
-  
+
   try {
     const savedTodo = await newTodo.save();
     res.json(savedTodo);
+    console.log('Route : Create todo ' + savedTodo.user_id);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Failed to create new todo' });
@@ -44,6 +45,7 @@ app.get('/get/:id', async (req, res) => {
 app.delete('/delete/:id', async (req, res) => {
   const tDelete = await Todo.findByIdAndDelete(req.params.id);
   res.json(tDelete);
+  console.log('Route : Delete todo by id ' + req.params.id);
 });
 
 // Update a todo by id
@@ -61,6 +63,7 @@ app.put('/update/:id', async (req, res) => {
     }
   );
   res.json(tUpdate);
+  console.log("Route : Update todo by id " + req.params.id);
 });
 
 module.exports = app
