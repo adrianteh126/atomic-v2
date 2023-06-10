@@ -16,24 +16,32 @@ app.post('/new', async (req, res) => {
   // Generate a new ObjectId
   const newTodo = new Todo({
     //user_id: '60a8c2aeed439d001f28cadd', // Replace with the actual user ID
-    t_name: 'Complete assignment',
-    t_description: 'Finish the programming task',
-    t_progress: 0,
-    t_due_date: new Date('2023-06-15'), // Replace with the actual due date
-    t_priority: 'High',
-    t_status: 'To do',
+    // t_name: 'Complete assignment',
+    // t_description: 'Finish the programming task',
+    // t_progress: 0,
+    // t_due_date: new Date('2023-06-15'), // Replace with the actual due date
+    // t_priority: 'High',
+    // t_status: 'To do',
+
+    // Modify the data for testing
+    // user_id: '6475eb01d50eda4ae0e7bb31',
+    // t_name: 'Test',
+    // t_description: 'Test',
+    // t_progress: 5,
+    // t_due_date: new Date('2023-06-10'), // Replace with the actual due date
+    // t_priority: 'Log',
+    // t_status: 'To do',
   });
 
   try {
     const savedTodo = await newTodo.save();
     res.json(savedTodo);
-    console.log('Route : Create todo ' + savedTodo.user_id);
+    console.log('Route : Create todo ' + savedTodo._id);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Failed to create new todo' });
   }
 });
-
 
 // Getter by id
 app.get('/get/:id', async (req, res) => {
