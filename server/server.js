@@ -20,7 +20,7 @@ app.use(function (req, res, next) {
 app.use(express.json());
 app.use(cookieParser());
 
-// database 
+// Database 
 const uri = "mongodb+srv://admin:admin@cluster0.kz0vhkq.mongodb.net/?retryWrites=true&w=majority";
 mongoose.connect(uri, {
   useNewUrlParser: true,
@@ -90,11 +90,12 @@ app.get("/statistic", function (req, res) {
 //     var b = parseFloat(req.body.b);
 //     var sum = a + b;
 //     res.send(a + " + " + b + " = " + sum);
-
 // })
+
 // routes
-// const TodosRoute = require('./routes/Todos');
-// app.use('/todos', TodosRoute)
+// modify the route name after integrate with frontend
+const TodosRoute = require('./routes/Todos');
+app.use('/todos', TodosRoute)
 
 // const UsersRoute = require('./routes/Users');
 // app.use('/users', UsersRoute)
@@ -104,10 +105,7 @@ app.use((req, res) => {
   res.status(404).send('<h1>404 Error: Page Not Found</h1>');
 });
 
-// // Way to retrive data 
-// app.post("/", function (req, res) {
-//     var a = req.body.a; //retrieve a from POST method made
-// })
+
 
 // App listening on port 3000
 // Can be access by localhost:3000 on browser
