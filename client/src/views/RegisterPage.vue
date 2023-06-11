@@ -29,7 +29,7 @@
           <div class="col-lg-7">
             <img
               src="/images/Register.png"
-              class="'img-fluid float-end"
+              class="'img-fluid float-end d-none d-lg-block"
               width="990px"
               height="760px"
             />
@@ -83,3 +83,12 @@
   }
 
   </script>
+
+  <style>
+    a {
+      color: var(--purple-color);
+    }
+    a:hover {
+      color: var(--dark-color); 
+    }
+  </style>

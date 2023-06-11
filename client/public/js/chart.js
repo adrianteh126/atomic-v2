@@ -13,20 +13,23 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     // Create a chart instance
-    var ctx = document.getElementById('toDoChart').getContext('2d');
-    var chart = new Chart(ctx, {
-        type: 'pie',
-        data: toDoData,
-        options: {
-            responsive: true,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Statistic of Current Tasks', // Custom chart title
-                    fontSize: 18,
-                    fontColor: '#333',
+    var ctx = document.getElementById('toDoChart');
+
+    if (ctx) {
+        var chart = new Chart(ctx, {
+            type: 'pie',
+            data: toDoData,
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Statistic of Current Tasks', // Custom chart title
+                        fontSize: 18,
+                        fontColor: '#333',
+                    },
                 },
             },
-        },
-    });
+        });
+    }
 });
