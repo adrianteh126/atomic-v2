@@ -1,6 +1,6 @@
 <template>
-      <!-- Header(Navbar) -->
-      <section id="header">
+    <!-- Header(Navbar) -->
+    <section id="header">
       <nav
         class="navbar navbar-expand-lg navbar-light bg-white border border-1 border-top-0 border-start-0 border-end-0 border-dark fixed-top"
       >
