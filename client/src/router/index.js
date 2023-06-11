@@ -12,7 +12,6 @@ const routes = [
         path: '/',
         name: 'landingPage',
         component: LandingPage,
-        meta: { title: 'Atomic' }
     },
     {
         path: '/login',
