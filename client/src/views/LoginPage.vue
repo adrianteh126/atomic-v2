@@ -17,11 +17,14 @@
           <div class="col-lg-5 px-5 pt-5">
             <h1 class="font-weight-bold py-3">Atomic</h1>
             <h4>Sign into your account</h4>
-            <form>
+            <form @submit="handleSubmit">
+              <div class="email error">{{ emailError }}</div>
+              <div class="password error">{{ passwordError }}</div>
               <div class="form-row">
                 <div class="col-lg-8">
                   <input
                     type="email"
+                    v-model="email"
                     placeholder="Email Address"
                     class="form-control my-3 p-4"
                   />
@@ -31,6 +34,7 @@
                 <div class="col-lg-8">
                   <input
                     type="password"
+                    v-model="password"
                     placeholder="Password"
                     class="form-control my-3 p-4"
                   />
@@ -40,7 +44,7 @@
                 <div class="col-lg-8">
                   <a href=" ">
                     <button
-                      type="button"
+                      type="submit"
                       id="loginButton"
                       class="btn1 mt-3 mb-5"
                       data-bs-target="#loginModal"
@@ -102,10 +106,48 @@
   <script>
   import TopNavBar from '@/components/TopNavBar.vue';
 
-    export default {
-    components: { TopNavBar }
-}
+  export default {
+    components: { TopNavBar },
 
+    data() {
+      return {
+        email: '',
+        password: '',
+        emailError: '',
+        passwordError: ''
+      };
+    },
+  methods: {
+    async handleSubmit(e) {
+      e.preventDefault();
+
+      this.emailError = '';
+      this.passwordError = '';
+
+      try {
+        const res = await fetch('/login', {
+          method: 'POST',
+          body: JSON.stringify({
+            email: this.email,
+            password: this.password
+          }),
+          headers: { 'Content-Type': 'application/json' }
+        });
+        const data = await res.json();
+        console.log(data);
+        if (data.errors) {
+          this.emailError = data.errors.email;
+          this.passwordError = data.errors.password;
+        }
+        if (data.user) {
+          location.assign('/');
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }
+  };
   </script>
   
   <style>
