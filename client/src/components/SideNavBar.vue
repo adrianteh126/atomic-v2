@@ -28,22 +28,22 @@
         <div class="menu">
           <div class="menu-links">
             <li class="side-nav-link">
-              <a href="./dashboard">
+              <router-link to="/dashboard">
                 <img class="icon-black mx-3" src="/icons/dashboard.svg" />
                 <span class="text nav-text">Dashboard</span>
-              </a>
+                </router-link>
             </li>
             <li class="side-nav-link">
-              <a href="./settings">
-                <img class="icon-white mx-3" src="/icons/profile.svg" />
-                <span class="text nav-text">Profile</span>
-              </a>
+                <router-link to="/dashboard/settings">
+                  <img class="icon-white mx-3" src="/icons/profile.svg" />
+                  <span class="text nav-text">Profile</span>
+                </router-link>
             </li>
             <li class="side-nav-link">
-              <a href="./statistic">
+              <router-link to="/dashboard/statistic">
                 <img class="icon-white mx-3" src="/icons/chart.svg" />
                 <span class="text nav-text">Statistic</span>
-              </a>
+              </router-link>
             </li>
           </div>
         </div>
@@ -54,7 +54,7 @@
               <span class="text nav-text">Logout</span>
             </a>
           </li>
-          <li class="mode">
+          <!-- <li class="mode">
             <div class="moon-sun">
               <i class="bx bx-moon icon-bottom moon"></i>
               <i class="bx bx-sun icon-bottom sun"></i>
@@ -64,15 +64,15 @@
             <div class="toggle-switch">
               <span class="switch"></span>
             </div>
-          </li>
+          </li> -->
         </div>
       </div>
       </nav>
 </template>
-<script>
-export default {
-    name : 'SideNavBar',
-}
+  <script>
+  export default {
+      name : 'SideNavBar',
+  }
 </script>
 <style>
     

@@ -13,32 +13,62 @@
                     data-target="#reminderModal"
                     id="reminderButton"
                   ></i>
-                  <h6 class="mx-2 mt-2 text-secondary">3rd May 2023</h6>
+                  <h6 class="mx-2 mt-2 text-secondary">{{ currentDate }}</h6>
                   <div
-                    class="mx-3"
-                    style="
-                      width: 25px;
-                      height: 25px;
-                      border-radius: 50%;
-                      overflow: hidden;
-                    "
+                    class="mx-3 pp"
                   >
                     <img
                       src="/images/Profile.svg"
                       alt="your_image_alt_text"
-                      style="width: 100%; height: 100%; object-fit: cover"
                     />
                   </div>
                 </div>
               </div>
             </div>
     </section>
+    
 </template>
 <script>
+import { onMounted, ref } from 'vue';
+
 export default {
     name : 'TopBar',
+    setup() {
+      const currentDate = ref('');
+      
+      onMounted(() => {
+        setCurrentDate(currentDate);
+        startUpdatingCurrentDate(currentDate);
+      });
+
+      const setCurrentDate = (dateRef) => {
+        const date = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+        dateRef.value = date.toLocaleDateString('en-US', options);
+      };
+
+      const startUpdatingCurrentDate = (dateRef) => {
+        setInterval(() => {
+          setCurrentDate(dateRef);
+        }, 1000); // Update every 1 second
+      };
+
+      return {
+        currentDate,
+      }
+    },
 }
 </script>
 <style>
-
+  .pp {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  .pp > img {
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover
+  }
 </style>

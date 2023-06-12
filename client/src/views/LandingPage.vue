@@ -1,25 +1,7 @@
   <template>
     <!-- Header(Navbar) -->
-    <section id="header">
-      <nav
-        class="navbar navbar-expand-lg navbar-light bg-white border border-1 border-top-0 border-start-0 border-end-0 border-dark fixed-top"
-      >
-        <div class="container-fluid mx-4">
-          <a
-            class="navbar-brand text-center d-flex align-items-center"
-            href="#page1"
-          >
-            <img
-              src="/images/icon-black.svg"
-              alt="Logo"
-              width="36"
-              height="36"
-              class="d-inline-block align-text-top me-2"
-            />
-            <span class="fs-4 ms-2 logo-title">Atomic</span>
-          </a>
-          
-          <div class="justify-content-end" id="navbarNav">
+    <TopNavBar class="">
+      <div class="justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
                 <a class="nav-link" href="/login">
@@ -27,12 +9,9 @@
                   <span class="fs-6 ms-1">Login</span>
                 </a>
               </li>
-              <!-- Can add more nav bar item here -->
             </ul>
           </div>
-        </div>
-      </nav>
-    </section>
+    </TopNavBar>
 
     <section id="body">
       <div class="container-fluid">
@@ -54,7 +33,7 @@
           </div>
           <!-- Center pages column -->
           <div class="col-10">
-            <div id="fullpage">
+            <div id="fullpage" class="mt-5 pt-3">
               <!-- Page 1 -->
               <section class="section">
                 <div class="row">
@@ -121,7 +100,7 @@
                 </div>
               </section>
               <!-- Page 2 -->
-              <section
+              <!-- <section
                 class="section page d-flex align-items-center justify-content-center fw-bolder text-light"
                 style="background-color: var(--dark-color)"
               >
@@ -157,7 +136,7 @@
                     </div>
                   </div>
                 </div>
-              </section>
+              </section> -->
             </div>
           </div>
           <!-- Right fixed column -->
@@ -188,8 +167,12 @@
   </template>
  
   <script>
+    import TopNavBar from '@/components/TopNavBar.vue';
 
     export default {
+      components : {
+        TopNavBar,
+      }
     }
 
   </script>

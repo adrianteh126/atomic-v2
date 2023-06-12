@@ -1,8 +1,11 @@
 // Packages
 const express = require("express");
 const path = require("path");
-const mongoose = require("mongoose")
-const bodyParser = require("body-parser")
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const authRoutes = require('./routes/authRoutes');
+const cookieParser = require('cookie-parser');
+const { requireAuth, checkUser } = require('./middleware/authMiddleware');
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -14,6 +17,8 @@ app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Headers", "auth-token, Origin, X-Requested-With, Content-Type, Accept");
   next();
 })
+app.use(express.json());
+app.use(cookieParser());
 
 // Database 
 const uri = "mongodb+srv://admin:admin@cluster0.kz0vhkq.mongodb.net/?retryWrites=true&w=majority";
@@ -31,14 +36,17 @@ app.use(bodyParser.json())
 // Serve static files from the "public" folder
 app.use(express.static(path.join(__dirname, "public")));
 
-// Routes (Temporarily)
+// Routing
+app.use(authRoutes);
+app.get('*', checkUser);
+
 app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "index.html"));
 })
 
-app.get("/login", function (req, res) {
-  res.sendFile(path.join(__dirname, "login.html"));
-})
+// app.get("/login", function (req, res) {
+//   res.sendFile(path.join(__dirname, "login.html"));
+// })
 
 app.get("/dashboard", function (req, res) {
   res.sendFile(path.join(__dirname, "dashboard.html"));
@@ -51,6 +59,30 @@ app.get("/settings", function (req, res) {
 app.get("/statistic", function (req, res) {
   res.sendFile(path.join(__dirname, "statistic.html"));
 })
+
+// cookies
+// const cookieParser = require('cookie-parser');
+// app.use(cookieParser());
+
+// app.get('/set-cookies', (req, res) => {
+
+//   // res.setHeader('Set-Cookie', 'newUser=true');
+  
+//   res.cookie('newUser', false);
+//   res.cookie('isEmployee', true, { maxAge: 1000 * 60 * 60 * 24, httpOnly: true });
+
+//   res.send('you got the cookies!');
+
+// });
+
+// app.get('/read-cookies', (req, res) => {
+
+//   const cookies = req.cookies;
+//   console.log(cookies.newUser);
+
+//   res.json(cookies);
+
+// });
 
 // Retrive and calculate from POST method 
 // app.post("/calculator", function (req, res) {
@@ -65,8 +97,8 @@ app.get("/statistic", function (req, res) {
 const TodosRoute = require('./routes/Todos');
 app.use('/todos', TodosRoute)
 
-const UsersRoute = require('./routes/Users');
-app.use('/users', UsersRoute)
+// const UsersRoute = require('./routes/Users');
+// app.use('/users', UsersRoute)
 
 // 404 Error Handler
 app.use((req, res) => {

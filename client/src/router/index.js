@@ -3,13 +3,15 @@ import LandingPage from '../views/LandingPage.vue'
 import LoginPage from '../views/LoginPage.vue'
 import RegisterPage from '../views/RegisterPage.vue'
 import DashboardPage from '../views/DashboardPage.vue'
+import TodosPage from '../components/Todos.vue'
+import SettingPage from '../components/Setting.vue'
+import StatisticPage from '../components/Statistic.vue'
 
 const routes = [
     {
         path: '/',
         name: 'landingPage',
         component: LandingPage,
-        meta: { title: 'Atomic' }
     },
     {
         path: '/login',
@@ -27,8 +29,28 @@ const routes = [
         path: '/dashboard',
         name: 'dashboardPage',
         component: DashboardPage,
-        meta: { title: 'Dashboard' }
-    },
+        meta: { title: 'Dashboard' },
+        children: [
+            {
+                path: '',
+                name: 'todosPage',
+                component: TodosPage,
+                meta: { title: 'Todos' }
+            },
+            {
+                path: 'settings',
+                name: 'settingsPage',
+                component: SettingPage,
+                meta: { title: 'Settings' }
+            },
+            {
+                path: 'statistic',
+                name: 'StatisticPage',
+                component: StatisticPage,
+                meta: { title: 'Statistic' }
+            },
+        ]
+    }
 ]
 
 const router = createRouter({

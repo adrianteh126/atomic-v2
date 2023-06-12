@@ -1,5 +1,5 @@
 <template>
-        <!-- Header(Navbar) -->
+    <!-- Header(Navbar) -->
     <section id="header">
       <nav
         class="navbar navbar-expand-lg navbar-light bg-white border border-1 border-top-0 border-start-0 border-end-0 border-dark fixed-top"
@@ -22,13 +22,14 @@
       </nav>
     </section>
 
+    <!-- Register page body -->
     <section class="form mx-5 mt-5">
       <div class="container-fluid">
         <div class="row no-gutters">
           <div class="col-lg-7">
             <img
               src="/images/Register.png"
-              class="'img-fluid float-end"
+              class="'img-fluid float-end d-none d-lg-block"
               width="990px"
               height="760px"
             />
@@ -82,3 +83,12 @@
   }
 
   </script>
+
+  <style>
+    a {
+      color: var(--purple-color);
+    }
+    a:hover {
+      color: var(--dark-color); 
+    }
+  </style>
