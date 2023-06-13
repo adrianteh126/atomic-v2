@@ -16,8 +16,6 @@
     <link rel="stylesheet" href="/css/login.css" />
     <link rel="icon" href="/images/icon-black.svg" type="image/svg" />
     <title>Atomic - Login</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/js/login.js"></script>
   </head>
   <body>
     <!-- Header(Navbar) -->
@@ -28,7 +26,7 @@
         <div class="container-fluid mx-4">
           <a
             class="navbar-brand text-center d-flex align-items-center"
-            href="index.html"
+            href="index"
           >
             <img
               src="/images/icon-black.svg"
@@ -94,19 +92,13 @@
               <a href="#">Forgot Password</a>
               <p>
                 Don't Have an account?
-                <a href="./register.html">Register Here</a>
+                <a href="./register">Register Here</a>
               </p>
             </form>
           </div>
         </div>
       </div>
     </section>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-      crossorigin="anonymous"
-    ></script>
-
     <!-- Modal ----------------->
     <div
       class="modal fade"
@@ -130,7 +122,7 @@
             <p>You are now logged in.</p>
           </div>
           <div class="modal-footer">
-            <a href="./dashboard.html">
+            <a href="./dashboard">
               <button
                 type="button"
                 class="btn btn-secondary"
@@ -143,5 +135,13 @@
         </div>
       </div>
     </div>
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/login.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>

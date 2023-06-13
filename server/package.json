@@ -10,9 +10,17 @@
   "author": "To-Do-Team",
   "dependencies": {
     "axios": "^1.4.0",
+    "bcrypt": "^5.1.0",
+    "body-parse": "^0.1.0",
+    "body-parser": "^1.20.2",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
     "mongodb": "^5.5.0",
-    "nodemon": "^2.0.22",
+    "mongoose": "^7.2.1",
+    "path": "^0.12.7",
+    "validator": "^13.9.0",
     "vue": "^3.3.2",
     "vue-router": "^4.2.0"
   },
@@ -23,5 +31,8 @@
   "bugs": {
     "url": "https://github.com/adrianteh126/atomic-v2/issues"
   },
-  "homepage": "https://github.com/adrianteh126/atomic-v2#readme"
+  "homepage": "https://github.com/adrianteh126/atomic-v2#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
 }

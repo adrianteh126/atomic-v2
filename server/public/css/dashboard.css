@@ -328,10 +328,10 @@ body.dark .switch::before {
 
 .home {
   position: relative;
-  height: 200vh;
+  height: 100%;
   left: 250px;
   width: calc(100% - 250px);
-  background-color: var(--body-color);
+  /* background-color: var(--body-color); */
   transition: var(--transition-05);
 }
 .home .text {
