@@ -12,11 +12,15 @@ app.use(express.urlencoded({ extended: true }));
 
 // Handle CORS + middleware
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE"); // If using .fetch and not axios
-  res.header("Access-Control-Allow-Headers", "auth-token, Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Origin", "http://localhost:8081"); //Change according to frontend port 
+  // res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS, POST, PUT, DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Accept");
+  res.header("Access-Control-Allow-Credentials", "true");
   next();
-})
+});
+
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -67,7 +71,7 @@ app.get("/statistic", function (req, res) {
 // app.get('/set-cookies', (req, res) => {
 
 //   // res.setHeader('Set-Cookie', 'newUser=true');
-  
+
 //   res.cookie('newUser', false);
 //   res.cookie('isEmployee', true, { maxAge: 1000 * 60 * 60 * 24, httpOnly: true });
 
@@ -96,6 +100,9 @@ app.get("/statistic", function (req, res) {
 // modify the route name after integrate with frontend
 const TodosRoute = require('./routes/Todos');
 app.use('/todos', TodosRoute)
+
+const UserRoute = require('./routes/Users');
+app.use('/user', UserRoute)
 
 // const UsersRoute = require('./routes/Users');
 // app.use('/users', UsersRoute)
