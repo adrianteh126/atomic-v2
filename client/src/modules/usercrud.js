@@ -31,6 +31,10 @@ const getUser = () => {
     const deleteUser = (_id) => {
         fetch(`http://localhost:3000/user/delete/${_id}`, { method: "DELETE" })
             .then(console.log('modules/usercrud.js : Delete user by id ' + _id))
+
+        alert('Sucessfully detele the user account!')
+        router.replace('/') // Nav to landing page
+
     }
 
     const updateUser = (userId) => {
@@ -41,8 +45,11 @@ const getUser = () => {
         const confirm_password = state.value.newConfirmPassword;
 
         if (password !== confirm_password) {
-            console.error('Password does not match confirmation'); // Log the error message
-            // Handle error state or show error message to the user
+            const errorMessage = 'Password does not match confirmation';
+            console.error(errorMessage); // Log the error message
+            // Prompt the user with the error message (e.g., using an alert or a notification component)
+            alert(errorMessage);
+
             return;
         }
 
@@ -66,15 +73,19 @@ const getUser = () => {
             .then(data => {
                 console.log('Updated user:', data);
                 // Handle success state or show success message to the user
+                alert('Sucessfully update the user detail!')
+                // For refresh the page upon sucess update
+                router.replace('/dashboard') // Push to a temporary route
+                    .then(() => {
+                        router.replace('/dashboard/settings'); // Push back to the original route
+                    });
             })
             .catch(error => {
                 console.error('Error updating user:', error);
                 // Handle error state or show error message to the user
             });
 
-        router.push('/dashboard/settings');
     };
-
 
 
     return {

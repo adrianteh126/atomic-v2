@@ -34,6 +34,7 @@ const checkUser = (req, res, next) => {
         next();
       }
     });
+    console.log('middleware/authMiddleware.js : checkUser ');
   } else {
     res.locals.user = null;
     next();

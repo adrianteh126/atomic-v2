@@ -20,7 +20,7 @@
           <br>
           newConfirmPassword - {{ state.newConfirmPassword }}
         </p>
-        <form>
+        <form @submit.prevent="updateUser(state.user._id)">
           <div class="form-row">
             <div class="col-lg-8">
               <label for="username"><b>Username:</b></label>
@@ -30,6 +30,9 @@
                 placeholder="Enter your username"
                 v-model="state.newUserName"
                 class="form-control my-3 p-4 custom-input"
+                required
+                minlength="3"
+                maxlength="12"
               />
             </div>
           </div>
@@ -42,6 +45,8 @@
                 placeholder="Enter your email"
                 v-model="state.newEmail"
                 class="form-control my-3 p-4"
+                required
+
               />
             </div>
           </div>
@@ -54,6 +59,7 @@
                 placeholder="Enter your password"
                 v-model="state.newPassword"
                 class="form-control my-3 p-4"
+                minlength="6"
               />
             </div>
           </div>
@@ -66,15 +72,15 @@
                 placeholder="Confirm your password"
                 v-model="state.newConfirmPassword"
                 class="form-control my-3 p-4"
+                minlength="6"
               />
             </div>
           </div>
           <div class="form-row py-3">
             <button
-              type="button"
+              type="submit"
               class="btn btn-secondary me-3"
               id="btnSavechanges"
-              @click="updateUser(state.user._id)"
             >
               Save Changes
             </button>
@@ -94,7 +100,6 @@
 </template>
 
 <script>
-import { onMounted } from 'vue'
 import usercrud from '../modules/usercrud'
 
 export default {
@@ -107,9 +112,7 @@ export default {
       deleteUser,
       updateUser  } = usercrud()
 
-    onMounted(() => {
-      getUserById('648931461e2971f3c19c8ad5') //using the current logged in userid
-    })
+      getUserById('64897209f049858a942b8039') //using the current logged in userid
 
     return { 
       state,
