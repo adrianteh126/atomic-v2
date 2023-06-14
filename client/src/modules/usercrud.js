@@ -10,7 +10,8 @@ const getUser = () => {
         newUserName: '',
         newEmail: '',
         newPassword: '',
-        newConfirmPassword: ''
+        newConfirmPassword: '',
+        newImageUrl: '',
     })
 
     const getUserById = async (id) => {
@@ -43,6 +44,7 @@ const getUser = () => {
         const email = state.value.newEmail;
         const password = state.value.newPassword;
         const confirm_password = state.value.newConfirmPassword;
+        const image_url = state.value.newImageUrl;
 
         if (password !== confirm_password) {
             const errorMessage = 'Password does not match confirmation';
@@ -56,7 +58,8 @@ const getUser = () => {
         const updates = {
             user_name,
             email,
-            password
+            password,
+            image_url,
         };
 
         const requestOptions = {

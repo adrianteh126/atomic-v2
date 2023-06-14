@@ -52,17 +52,17 @@ app.get("/", function (req, res) {
 //   res.sendFile(path.join(__dirname, "login.html"));
 // })
 
-app.get("/dashboard", function (req, res) {
-  res.sendFile(path.join(__dirname, "dashboard.html"));
-})
+// app.get("/dashboard", function (req, res) {
+//   res.sendFile(path.join(__dirname, "dashboard.html"));
+// })
 
-app.get("/settings", function (req, res) {
-  res.sendFile(path.join(__dirname, "settings.html"));
-})
+// app.get("/settings", function (req, res) {
+//   res.sendFile(path.join(__dirname, "settings.html"));
+// })
 
-app.get("/statistic", function (req, res) {
-  res.sendFile(path.join(__dirname, "statistic.html"));
-})
+// app.get("/statistic", function (req, res) {
+//   res.sendFile(path.join(__dirname, "statistic.html"));
+// })
 
 // cookies
 // const cookieParser = require('cookie-parser');
@@ -111,8 +111,6 @@ app.use('/user', UserRoute)
 app.use((req, res) => {
   res.status(404).send('<h1>404 Error: Page Not Found</h1>');
 });
-
-
 
 // App listening on port 3000
 // Can be access by localhost:3000 on browser

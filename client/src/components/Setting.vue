@@ -2,11 +2,13 @@
   <h5 class="p-3 ps-4 mx-2 fw-bold ">Profile Setting ⚙️</h5>
   <div class="container-fluid">
     <div class="row justify-content-center">
-      <div class="col-lg-4 d-flex align-items-center justify-content-center">
-        <img src="/images/Profile.svg" alt="Profile picture" class="py-5" />
+      <div class="col-lg-4 d-flex align-items-center justify-content-center flex-column">
+        <!-- replce img src with current user img_url -->
+        <img :src="state.user.image_url" alt="Profile picture" class="py-5 rounded-circle img-fluid" style="max-width: 500px; max-height: 500px;" />
+        <button id="uploadImg" @click="openUploadWidget()" class="btn btn-dark mt-2">Upload Image</button>
       </div>
       <div class="col-lg-6 my-3">
-        <p>
+        <!-- <p>
           State : user {{ state.user }}
         </p>
         <br>
@@ -19,7 +21,9 @@
           newPassword - {{ state.newPassword }}
           <br>
           newConfirmPassword - {{ state.newConfirmPassword }}
-        </p>
+          <br>
+          newImageUrl - {{  state.newImageUrl }}
+        </p> -->
         <form @submit.prevent="updateUser(state.user._id)">
           <div class="form-row">
             <div class="col-lg-8">
@@ -104,31 +108,53 @@ import usercrud from '../modules/usercrud'
 
 export default {
   name : 'SettingComponent',
-  setup() {
+  components : {
+  },
 
+  setup() {
     const { 
       state,
       getUserById,
       deleteUser,
       updateUser  } = usercrud()
 
-      getUserById('64897209f049858a942b8039') //using the current logged in userid
+    getUserById('64897209f049858a942b8039') //using the current logged in userid
+
+    const widget = window.cloudinary.createUploadWidget(
+      {cloud_name: "dt2tgkzda", upload_preset:"yzkmtsuc"},
+      (error, result) => {
+        if (!error && result && result.event === "success") {
+          console.log("Done uploading!",result.info );
+          const newUrl = result.info.secure_url;
+          state.value.newImageUrl = newUrl;
+          state.value.user.image_url = newUrl;
+          console.log('Assigned URL = '+state.value.newImageUrl);
+        }
+      }
+    );
+
+    const openUploadWidget = () => {
+      widget.open();
+    }
 
     return { 
       state,
       getUserById,
       deleteUser,
-      updateUser }
+      updateUser,
+      openUploadWidget
+    }
     },
     data() {
       return {
         username: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
       }
     },
     methods : {
+    
       // showSaveChangesModal() {
       //   // Logic to show the save changes modal
       // },
@@ -150,6 +176,6 @@ export default {
       //   const { deleteUser } = getUser()
       //   await deleteUser()
       // }
-  }
+    }
 }
 </script>

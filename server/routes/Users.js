@@ -1,33 +1,10 @@
 const express = require('express');
 const User = require('../models/Users');
 const bcrypt = require('bcrypt');
+const { uploadImage } = require('../middleware/uploadImage');
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
-
-// // Create a new static user data
-// app.post('/new', async (req, res) => {
-//   // Static user data for testing
-//   const staticUser = {
-//     user_name: 'John Doe',
-//     email: 'johndoe@example.com',
-//     password: 'password123',
-//   };
-
-//   try {
-//     const newUser = new User(staticUser);
-//     const savedUser = await newUser.save();
-//     //   return saved User Data
-//     res.json(savedUser);
-
-//     //   return saved User id
-//     //   const userId = savedUser._id;
-//     //   res.json({ userId });
-//   } catch (error) {
-//     console.error('Failed to create user:', error);
-//     res.status(500).json({ error: 'Failed to create user' });
-//   }
-// });
 
 app.get('/get/:id', async (req, res) => {
   try {
@@ -42,7 +19,6 @@ app.get('/get/:id', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-
 
 app.delete('/delete/:id', async (req, res) => {
   try {
@@ -61,7 +37,7 @@ app.delete('/delete/:id', async (req, res) => {
 app.put('/update/:id', async (req, res) => {
 
   try {
-    const { user_name, email, password } = req.body;
+    const { user_name, email, password, image_url } = req.body;
     const updates = {};
 
     if (user_name) {
@@ -72,12 +48,17 @@ app.put('/update/:id', async (req, res) => {
       updates.email = email;
     }
 
-
     if (password) {
-      console.log('if(Password) == True');
       const salt = await bcrypt.genSalt();
       const hashedPassword = await bcrypt.hash(password, salt);
       updates.password = hashedPassword;
+    }
+
+    if (image_url) {
+      // Upload the image to Cloudinary
+      const cloudinaryImageUrl = await uploadImage(image_url);
+      console.log('CloudinaryImgUrl = ' + cloudinaryImageUrl);
+      updates.image_url = cloudinaryImageUrl;
     }
 
     const tUpdate = await User.updateOne(
@@ -90,15 +71,11 @@ app.put('/update/:id', async (req, res) => {
     }
 
     console.log('Server/Users.js: Update user by id ' + req.params.id); // Log the _id value
-    console.log(updates);
     res.json(tUpdate);
   } catch (error) {
     console.error('Error updating user:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
-
-
-
 
 module.exports = app
