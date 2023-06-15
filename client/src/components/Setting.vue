@@ -1,183 +1,181 @@
 <template>
-    <section >
-        <h4 class="p-4 fw-bold">Profile Setting⚙️</h4>
-        <section class="home">
-      <!-- Manage User Profile -->
-      <div class="container-fluid">
-        <div class="row">
-          <div
-            class="col-lg-4 align-items-center justify-content-center px-5 py-5"
-          >
-            <img src="/images/Profile.svg" class="py-5" />
-          </div>
-          <div class="col-lg-5 px-5 pt-5">
-            <form>
-              <div class="form-row py-4">
-                <div class="col-lg-8">
-                  <label for="username">Username:</label>
-                  <input
-                    type="text"
-                    id="username"
-                    placeholder="Enter your username"
-                    value="Keat"
-                    class="form-control my-3 p-4 custom-input"
-                  />
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="col-lg-8">
-                  <label for="email">Email Address:</label>
-                  <input
-                    type="email"
-                    id="email"
-                    placeholder="Enter your email"
-                    value="adrianteh126@hotmail.com"
-                    class="form-control my-3 p-4"
-                  />
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="col-lg-8">
-                  <label for="password">Password:</label>
-                  <input
-                    type="password"
-                    id="password"
-                    placeholder="Enter your password"
-                    class="form-control my-3 p-4"
-                  />
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="col-lg-8">
-                  <label for="confirm-password">Confirm Password:</label>
-                  <input
-                    type="password"
-                    id="confirm-password"
-                    placeholder="Confirm your password"
-                    class="form-control my-3 p-4"
-                  />
-                </div>
-              </div>
-
-              <!-- Button to trigger the modal -->
-              <div class="form-row">
-                <div class="col-lg-8">
-                  <button
-                    type="button"
-                    class="btn btn-secondary my-3"
-                    id="btnSavechanges"
-                    data-toggle="modal"
-                    data-target="#myModal1"
-                  >
-                    Save Changes
-                  </button>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <div class="col-lg-8">
-                  <button
-                    type="button"
-                    class="btn btn-danger"
-                    id="btnDeleteaccount"
-                    data-toggle="modal"
-                    data-target="#myModal2"
-                  >
-                    Delete Account
-                  </button>
-                </div>
-              </div>
-            </form>
-
-            <!-- Modal -->
-            <div
-              class="modal fade"
-              id="myModal1"
-              tabindex="-1"
-              role="dialog"
-              aria-labelledby="myModalLabel"
-            >
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h4 class="modal-title text-left" id="myModalLabel">
-                      Save Changes
-                    </h4>
-                  </div>
-                  <div class="modal-body">
-                    Are you sure you want to save the changes?
-                  </div>
-                  <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-default"
-                      data-dismiss="modal"
-                      id="btnCloseSave"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-dark"
-                      id="btConfirmsave"
-                    >
-                      Save Changes
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- modal 2  -->
-            <div
-              class="modal fade"
-              id="myModal2"
-              tabindex="-1"
-              role="dialog"
-              aria-labelledby="myModalLabel"
-            >
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h4 class="modal-title text-left" id="myModalLabel">
-                      Delete Account
-                    </h4>
-                  </div>
-                  <div class="modal-body">
-                    Are you sure you want to delete your account?
-                  </div>
-                  <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-default"
-                      data-dismiss="modal"
-                      id="btnDCancel"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-danger"
-                      id="btnDConfirmDelete"
-                    >
-                      Confirm Delete
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+  <h5 class="p-3 ps-4 mx-2 fw-bold ">Profile Setting ⚙️</h5>
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-lg-4 d-flex align-items-center justify-content-center flex-column">
+        <!-- replce img src with current user img_url -->
+        <img :src="state.user.image_url" alt="Profile picture" class="py-5 rounded-circle img-fluid" style="max-width: 500px; max-height: 500px;" />
+        <button id="uploadImg" @click="openUploadWidget()" class="btn btn-dark mt-2">Upload Image</button>
       </div>
-        </section>
-    </section>    
+      <div class="col-lg-6 my-3">
+        <!-- <p>
+          State : user {{ state.user }}
+        </p>
+        <br>
+        <p>State : input 
+          <br>
+          newUserName - {{ state.newUserName }}
+          <br>
+          newEmail - {{ state.newEmail }}
+          <br>
+          newPassword - {{ state.newPassword }}
+          <br>
+          newConfirmPassword - {{ state.newConfirmPassword }}
+          <br>
+          newImageUrl - {{  state.newImageUrl }}
+        </p> -->
+        <form @submit.prevent="updateUser(state.user._id)">
+          <div class="form-row">
+            <div class="col-lg-8">
+              <label for="username"><b>Username:</b></label>
+              <input
+                type="text"
+                id="username"
+                placeholder="Enter your username"
+                v-model="state.newUserName"
+                class="form-control my-3 p-4 custom-input"
+                required
+                minlength="3"
+                maxlength="12"
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-lg-8">
+              <label for="email"><b>Email Address:</b></label>
+              <input
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+                v-model="state.newEmail"
+                class="form-control my-3 p-4"
+                required
+
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-lg-8">
+              <label for="password"><b>Password:</b></label>
+              <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                v-model="state.newPassword"
+                class="form-control my-3 p-4"
+                minlength="6"
+              />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-lg-8">
+              <label for="confirm-password"><b>Confirm Password:</b></label>
+              <input
+                type="password"
+                id="confirm-password"
+                placeholder="Confirm your password"
+                v-model="state.newConfirmPassword"
+                class="form-control my-3 p-4"
+                minlength="6"
+              />
+            </div>
+          </div>
+          <div class="form-row py-3">
+            <button
+              type="submit"
+              class="btn btn-secondary me-3"
+              id="btnSavechanges"
+            >
+              Save Changes
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              id="btnDeleteaccount"
+              @click="deleteUser(state.user._id)"
+            >
+              Delete Account
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-    export default {
-        name : 'SettingComponent',
-    }
-</script>
+import usercrud from '../modules/usercrud'
 
-<style>
-</style>
+export default {
+  name : 'SettingComponent',
+  components : {
+  },
+
+  setup() {
+    const { 
+      state,
+      getUserById,
+      deleteUser,
+      updateUser  } = usercrud()
+
+    getUserById('64897209f049858a942b8039') //using the current logged in userid
+
+    const widget = window.cloudinary.createUploadWidget(
+      {cloud_name: "dt2tgkzda", upload_preset:"yzkmtsuc"},
+      (error, result) => {
+        if (!error && result && result.event === "success") {
+          console.log("Done uploading!",result.info );
+          const newUrl = result.info.secure_url;
+          state.value.newImageUrl = newUrl;
+          state.value.user.image_url = newUrl;
+          console.log('Assigned URL = '+state.value.newImageUrl);
+        }
+      }
+    );
+
+    const openUploadWidget = () => {
+      widget.open();
+    }
+
+    return { 
+      state,
+      getUserById,
+      deleteUser,
+      updateUser,
+      openUploadWidget
+    }
+    },
+    data() {
+      return {
+        username: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+      }
+    },
+    methods : {
+    
+      // showSaveChangesModal() {
+      //   // Logic to show the save changes modal
+      // },
+      // showDeleteAccountModal() {
+      //   // Logic to show the delete account modal
+      // },
+      // async saveChanges() {
+      //   // Logic to save changes
+      //   const { updateUser } = getUser()
+      //   const newUserData = {
+      //     user_name: this.username,
+      //     email: this.email,
+      //     password: this.password
+      //   }
+      //   await updateUser(newUserData)
+      // },
+      // async deleteAccount() {
+      //   // Logic to delete the account
+      //   const { deleteUser } = getUser()
+      //   await deleteUser()
+      // }
+    }
+}
+</script>

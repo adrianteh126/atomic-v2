@@ -125,22 +125,32 @@
       this.passwordError = '';
 
       try {
-        const res = await fetch('/login', {
+        const res = await fetch('http://localhost:3000/login', {
           method: 'POST',
           body: JSON.stringify({
             email: this.email,
             password: this.password
           }),
-          headers: { 'Content-Type': 'application/json' }
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include' // Include this option
         });
+
+        // Handle the response from the backend
         const data = await res.json();
-        console.log(data);
+        
         if (data.errors) {
           this.emailError = data.errors.email;
           this.passwordError = data.errors.password;
         }
+
         if (data.user) {
-          location.assign('/');
+          const token = data.token;
+          console.log('token'+ token);
+          const maxAge = 3 * 24 * 60 * 60;
+          document.cookie = `jwt=${token}; httpOnly=true; max-age=${maxAge*1000}`;
+          'jwt', token, { httpOnly: true, maxAge: maxAge * 1000 }
+          // alert('stop')
+          location.assign('/dashboard');
         }
       } catch (err) {
         console.log(err);

@@ -12,11 +12,15 @@ app.use(express.urlencoded({ extended: true }));
 
 // Handle CORS + middleware
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE"); // If using .fetch and not axios
-  res.header("Access-Control-Allow-Headers", "auth-token, Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Origin", "http://localhost:8081"); //Change according to frontend port 
+  // res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS, POST, PUT, DELETE");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Accept");
+  res.header("Access-Control-Allow-Credentials", "true");
   next();
-})
+});
+
+
 app.use(express.json());
 app.use(cookieParser());
 
@@ -48,17 +52,17 @@ app.get("/", function (req, res) {
 //   res.sendFile(path.join(__dirname, "login.html"));
 // })
 
-app.get("/dashboard", function (req, res) {
-  res.sendFile(path.join(__dirname, "dashboard.html"));
-})
+// app.get("/dashboard", function (req, res) {
+//   res.sendFile(path.join(__dirname, "dashboard.html"));
+// })
 
-app.get("/settings", function (req, res) {
-  res.sendFile(path.join(__dirname, "settings.html"));
-})
+// app.get("/settings", function (req, res) {
+//   res.sendFile(path.join(__dirname, "settings.html"));
+// })
 
-app.get("/statistic", function (req, res) {
-  res.sendFile(path.join(__dirname, "statistic.html"));
-})
+// app.get("/statistic", function (req, res) {
+//   res.sendFile(path.join(__dirname, "statistic.html"));
+// })
 
 // cookies
 // const cookieParser = require('cookie-parser');
@@ -67,7 +71,7 @@ app.get("/statistic", function (req, res) {
 // app.get('/set-cookies', (req, res) => {
 
 //   // res.setHeader('Set-Cookie', 'newUser=true');
-  
+
 //   res.cookie('newUser', false);
 //   res.cookie('isEmployee', true, { maxAge: 1000 * 60 * 60 * 24, httpOnly: true });
 
@@ -97,6 +101,9 @@ app.get("/statistic", function (req, res) {
 const TodosRoute = require('./routes/Todos');
 app.use('/todos', TodosRoute)
 
+const UserRoute = require('./routes/Users');
+app.use('/user', UserRoute)
+
 // const UsersRoute = require('./routes/Users');
 // app.use('/users', UsersRoute)
 
@@ -104,8 +111,6 @@ app.use('/todos', TodosRoute)
 app.use((req, res) => {
   res.status(404).send('<h1>404 Error: Page Not Found</h1>');
 });
-
-
 
 // App listening on port 3000
 // Can be access by localhost:3000 on browser

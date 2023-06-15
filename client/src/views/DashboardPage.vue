@@ -92,6 +92,7 @@
         </div>
       </div>
     </div>
+
     <!-- Reminder modal -->
     <div class="modal fade" id="reminderModal">
       <div class="modal-dialog modal-lg">
@@ -243,6 +244,7 @@
         </div>
       </div>
     </div>
+
   </template>
 
   <script>
