@@ -3,7 +3,7 @@
     <section class="header">
             <div class="row border-bottom py-2">
               <div class="col-4">
-                <h5 class="fw-bold mx-4 mt-2">Keat's Atomic</h5>
+                <h5 class="fw-bold mx-4 mt-2">{{ currentUserID }}'s Atomic</h5>
               </div>
               <div class="col-8">
                 <div class="d-flex justify-content-end align-items-center">
@@ -29,16 +29,23 @@
     
 </template>
 <script>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch  } from 'vue';
 
 export default {
     name : 'TopBar',
-    setup() {
+    props: ['currentUserID'],
+    setup(props) {
       const currentDate = ref('');
       
       onMounted(() => {
         setCurrentDate(currentDate);
         startUpdatingCurrentDate(currentDate);
+      });
+
+      // Watch for changes in currentUserID
+      watch(() => props.currentUserID, () => {
+        // Perform any action when currentUserID changes
+        console.log('Current User ID:', props.currentUserID);
       });
 
       const setCurrentDate = (dateRef) => {

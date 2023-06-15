@@ -132,11 +132,13 @@
             password: this.password
           }),
           headers: { 'Content-Type': 'application/json' },
-          credentials: 'include' // Include this option
+          credentials: 'include' // Include this option to send cookie
         });
 
         // Handle the response from the backend
         const data = await res.json();
+
+        console.log('data = ' + JSON.stringify(data));
         
         if (data.errors) {
           this.emailError = data.errors.email;
@@ -144,12 +146,13 @@
         }
 
         if (data.user) {
+          // hardcode : pass value from :3000/login
           const token = data.token;
-          console.log('token'+ token);
-          const maxAge = 3 * 24 * 60 * 60;
-          document.cookie = `jwt=${token}; httpOnly=true; max-age=${maxAge*1000}`;
-          'jwt', token, { httpOnly: true, maxAge: maxAge * 1000 }
-          // alert('stop')
+          console.log('token = '+ token);
+          // const maxAge = 3 * 24 * 60 * 60;
+          // document.cookie = `jwt=${token}; SameSite=None; Max-Age=${maxAge};`;
+          console.log(document.cookie);
+          alert('Stop')
           location.assign('/dashboard');
         }
       } catch (err) {

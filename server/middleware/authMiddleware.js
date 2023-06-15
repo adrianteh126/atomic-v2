@@ -27,18 +27,20 @@ const checkUser = (req, res, next) => {
     jwt.verify(token, 'net ninja secret', async (err, decodedToken) => {
       if (err) {
         res.locals.user = null;
-        next();
+        console.log('middleware/authMiddleware.js : checkUser invalid ');
+        res.status(401).json({ error: 'Invalid token' });
       } else {
         let user = await User.findById(decodedToken.id);
         res.locals.user = user;
-        next();
+        console.log('middleware/authMiddleware.js : checkUser valid - ' + user._id);
+        res.json({ _id: user._id });
       }
     });
-    console.log('middleware/authMiddleware.js : checkUser ');
   } else {
     res.locals.user = null;
-    next();
+    res.status(404).json({ error: 'No token is passed' })
   }
 };
+
 
 module.exports = { requireAuth, checkUser };

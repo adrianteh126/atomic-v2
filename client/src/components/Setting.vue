@@ -4,7 +4,7 @@
     <div class="row justify-content-center">
       <div class="col-lg-4 d-flex align-items-center justify-content-center flex-column">
         <!-- replce img src with current user img_url -->
-        <img :src="state.user.image_url" alt="Profile picture" class="py-5 rounded-circle img-fluid" style="max-width: 500px; max-height: 500px;" />
+        <img :src="state.user.image_url" alt="Profile picture" class="py-5 rounded-circle img-fluid" style="max-width: 400px; max-height: 400px;" />
         <button id="uploadImg" @click="openUploadWidget()" class="btn btn-dark mt-2">Upload Image</button>
       </div>
       <div class="col-lg-6 my-3">
@@ -121,7 +121,7 @@ export default {
     getUserById('64897209f049858a942b8039') //using the current logged in userid
 
     const widget = window.cloudinary.createUploadWidget(
-      {cloud_name: "dt2tgkzda", upload_preset:"yzkmtsuc"},
+      {cloud_name: "dt2tgkzda", upload_preset:"yzkmtsuc", maxFiles: 1},
       (error, result) => {
         if (!error && result && result.event === "success") {
           console.log("Done uploading!",result.info );
@@ -132,6 +132,7 @@ export default {
         }
       }
     );
+    
 
     const openUploadWidget = () => {
       widget.open();
