@@ -109,7 +109,7 @@
         //     // Handle any errors that occurred during the request
         //     console.error('Request error: ', error);
         //   });
-
+        }
     }
   </script>
 
