@@ -14,7 +14,8 @@ app.get('/', async (req, res) => {
 // Create new Todo
 app.post('/new', async (req, res) => {
   // Generate a new ObjectId
-  const newTodo = new Todo({
+  const newTodo = new Todo(
+    req.body 
     //user_id: '60a8c2aeed439d001f28cadd', // Replace with the actual user ID
     // t_name: 'Complete assignment',
     // t_description: 'Finish the programming task',
@@ -31,7 +32,7 @@ app.post('/new', async (req, res) => {
     // t_due_date: new Date('2023-06-10'), // Replace with the actual due date
     // t_priority: 'Log',
     // t_status: 'To do',
-  });
+  );
 
   try {
     const savedTodo = await newTodo.save();
