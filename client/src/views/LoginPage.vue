@@ -125,22 +125,26 @@
       this.passwordError = '';
 
       try {
-        const res = await fetch('/login', {
+        const res = await fetch('http://localhost:3000/login', {
           method: 'POST',
           body: JSON.stringify({
             email: this.email,
             password: this.password
           }),
-          headers: { 'Content-Type': 'application/json' }
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include'  // Include this option
         });
+
+        // Handle the response from the backend
         const data = await res.json();
-        console.log(data);
+        console.log('data = ' + JSON.stringify(data));
+        
         if (data.errors) {
           this.emailError = data.errors.email;
           this.passwordError = data.errors.password;
         }
         if (data.user) {
-          location.assign('/');
+          location.assign('/dashboard');
         }
       } catch (err) {
         console.log(err);

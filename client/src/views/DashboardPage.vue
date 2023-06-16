@@ -250,10 +250,47 @@
   import TopBar from '@/components/TopBar.vue';
 
     export default {
-      components : {
-        SideNavBar,
-        TopBar,
+      components: { SideNavBar, TopBar },
 
+      mounted() {
+        // Retrieve the JWT token from cookies
+        const cookies = document.cookie.split(';');
+        const JWTToken = cookies.find(cookie => cookie.trim().startsWith('jwt='));
+
+        // Request with the JWT token included in the headers
+        fetch('http://localhost:3000/authUser', {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            Authorization: `Bearer ${JWTToken}`
+          }
+        })
+          .then(response => {
+            if (response.ok) {
+              // Handle the successful response
+              return response.json();
+            } else {
+              console.log("Request failed!!!");
+              throw new Error('Request failed.');
+            }
+          })
+          .then(data => {
+            // Handle the response data
+            console.log(JSON.stringify(data));
+            if (data.decodedToken) {
+              if (window.location.pathname !== "/dashboard") {
+                location.assign("/dashboard");
+              }
+            }
+            else {
+              location.assign("/");
+            }
+          })
+          .catch(error => {
+            // Handle any errors that occurred during the request
+            console.error('Request error: ', error);
+            location.assign("/");
+          });
       }
     }
   </script>

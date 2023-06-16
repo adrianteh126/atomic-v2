@@ -3,20 +3,22 @@ const User = require('../models/Users');
 
 const requireAuth = (req, res, next) => {
   const token = req.cookies.jwt;
+  console.log("Token: " + token);
 
   // check json web token exists & is verified
   if (token) {
     jwt.verify(token, 'net ninja secret', (err, decodedToken) => {
       if (err) {
-        console.log(err.message);
-        res.redirect('/login');
+        console.log("Error: " + err.message);
+        res.status(400).json({ err });
       } else {
-        console.log(decodedToken);
-        next();
+        console.log("Decoded Token: " + decodedToken);
+        res.status(200).json({ decodedToken: decodedToken });
       }
     });
   } else {
-    res.redirect('/login');
+    res.redirect('http://localhost:8080/');
+    console.log("No token!!!");
   }
 };
 
