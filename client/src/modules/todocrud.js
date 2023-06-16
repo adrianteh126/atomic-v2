@@ -4,7 +4,6 @@ import { useRoute, useRouter } from 'vue-router'
 const getTodos = () => {
 
   const route = useRoute();
-  const router = useRouter();
 
   const todoId = computed(() => route.params.id)
   //console.log("todoId: ", todoId)
@@ -76,18 +75,19 @@ const getTodos = () => {
         t_name: state.value.NewT_name,
         t_description: state.value.NewT_description,
         t_progress: state.value.NewT_progress,
-        t_due_date: state.value.NewT_due_date, 
-        t_priority:  state.value.NewT_priority,
-        t_status:  state.value.NewT_status,
+        t_due_date: state.value.NewT_due_date,
+        t_priority: state.value.NewT_priority,
+        t_status: state.value.NewT_status,
       })
     }
     fetch("http://localhost:3000/todos/update/" + _id,
       requestOptions)
-      // .then(GetAllTodos())
+      .then(response => response.json())
+      .then(GetAllTodos())
       .then(res => res.body)
       .then(res => console.log(res))
       .then(alert('edited todo: ' + _id))
-    router.push('/todos')
+    // router.push('/todos')
   }
 
   const todo = ref({})
