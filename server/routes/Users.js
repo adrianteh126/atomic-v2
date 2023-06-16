@@ -1,7 +1,6 @@
 const express = require('express');
 const User = require('../models/Users');
 const bcrypt = require('bcrypt');
-const { uploadImage } = require('../middleware/uploadImage');
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -55,10 +54,7 @@ app.put('/update/:id', async (req, res) => {
     }
 
     if (image_url) {
-      // Upload the image to Cloudinary
-      const cloudinaryImageUrl = await uploadImage(image_url);
-      console.log('CloudinaryImgUrl = ' + cloudinaryImageUrl);
-      updates.image_url = cloudinaryImageUrl;
+      updates.image_url = image_url;
     }
 
     const tUpdate = await User.updateOne(

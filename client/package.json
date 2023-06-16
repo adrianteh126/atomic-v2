@@ -11,7 +11,10 @@
     "@cloudinary/url-gen": "^1.10.1",
     "@cloudinary/vue": "^1.11.2",
     "@vue/cli": "^5.0.8",
+    "bootstrap": "^5.3.0",
+    "bootstrap-icons": "^1.10.5",
     "core-js": "^3.8.3",
+    "jquery": "^3.7.0",
     "vue": "^3.2.13",
     "vue-plugin-load-script": "^2.1.1",
     "vue-router": "^4.2.2"

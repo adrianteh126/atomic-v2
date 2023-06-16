@@ -20,7 +20,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-
 app.use(express.json());
 app.use(cookieParser());
 
@@ -47,22 +46,6 @@ app.get('*', checkUser);
 app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "index.html"));
 })
-
-// app.get("/login", function (req, res) {
-//   res.sendFile(path.join(__dirname, "login.html"));
-// })
-
-// app.get("/dashboard", function (req, res) {
-//   res.sendFile(path.join(__dirname, "dashboard.html"));
-// })
-
-// app.get("/settings", function (req, res) {
-//   res.sendFile(path.join(__dirname, "settings.html"));
-// })
-
-// app.get("/statistic", function (req, res) {
-//   res.sendFile(path.join(__dirname, "statistic.html"));
-// })
 
 // cookies
 // const cookieParser = require('cookie-parser');

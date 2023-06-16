@@ -6,7 +6,7 @@
       <div class="container-fluid">
         <div class="row"> 
           <!-- Header -->
-          <TopBar/>
+          <TopBar :currentUserID="currentUserID"/>
           <!-- The Dashboard Body(Todos, Settings & Statistic) -->
           <router-view></router-view>
         </div>
@@ -56,10 +56,64 @@
       components : {
         SideNavBar,
         TopBar,
+      },
+      data() {
+        return {
+          currentUserID: null          
+        }
+      },
+      mounted() {
+        //check current userID using JWT token
+        fetch('http://localhost:3000/checkUser', {
+          method: 'GET',
+          credentials: 'include' // Include this option to send cookies
+        })
+          .then(response => response.json())
+          .then(data => {
+            // Handle the response data
+            this.currentUserID = data._id;
+            console.log('CurrentUserID = ' + data._id);
+          })
+          .catch(error => {
+            // Handle any errors
+            console.error('Error:', error);
+          });
 
-      }
+
+        // // Retrieve the JWT token from cookies
+        // const cookies = document.cookie.split(';');
+        // const JWTToken = cookies.find(cookie => cookie.trim().startsWith('jwt='));
+
+        // // Request with the JWT token included in the headers
+        // fetch('http://localhost:3000/authUser', {
+        //   method: 'GET',
+        //   credentials: 'include',
+        //   headers: {
+        //     Authorization: `Bearer ${JWTToken}`
+        //   }
+        // })
+        //   .then(response => {
+        //     if (response.ok) {
+        //       // Handle the successful response
+        //       return response.json();
+        //     } else {
+        //       location.assign('/login');
+        //       // throw new Error('Request failed.');
+        //     }
+        //   })
+        //   .then(data => {
+        //     // Handle the response data
+        //     console.log(data);
+        //   })
+        //   .catch(error => {
+        //     // Handle any errors that occurred during the request
+        //     console.error('Request error: ', error);
+        //   });
+        }
     }
   </script>
+
+  
   
   <style>
     @import '../assets/css/dashboard.css';

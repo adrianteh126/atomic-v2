@@ -60,10 +60,10 @@ module.exports.signup_post = async (req, res) => {
   const { user_name, email, password } = req.body;
 
   try {
-    const user = await User.create({ user_name, email, password });
+    const user = await User.create({ user_name, email, password }); //let user to uplaod img and store in image_url later
     const token = createToken(user._id);
     res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.status(201).json({ user: user._id });
+    res.status(201).json({ user: user._id, token: token });
     console.log('Server/authController.js : Create user with id ' + user._id);
   }
   catch (err) {
@@ -79,15 +79,24 @@ module.exports.login_post = async (req, res) => {
   try {
     const user = await User.login(email, password);
     const token = createToken(user._id);
+    const currentUserId = res.get('Set-Cookie')
     res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-    res.status(200).json({ user: user._id });
-  }
-  catch (err) {
+    res.status(200).json({ user: user._id, token: token });
+
+    // Access the Set-Cookie header
+    const setCookieHeader = res.get('Set-Cookie');
+    console.log('Set-Cookie header:', setCookieHeader);
+    // Extract the value of the jwt cookie
+    const jwtCookieValue = setCookieHeader.split(';')[0].split('=')[1];
+    console.log('jwt cookie value:', jwtCookieValue);
+
+    console.log('Server/authController.js: User login with id ' + user._id);
+  } catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
   }
+};
 
-}
 
 module.exports.logout_get = (req, res) => {
   res.cookie('jwt', '', { maxAge: 1 });

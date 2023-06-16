@@ -14,16 +14,16 @@ const getTodos = () => {
     NewT_name: '',
     NewT_description: '',
     NewT_progress: '',
-    NewT_due_date: '', 
+    NewT_due_date: '',
     NewT_priority: '',
     // NewT_status: '',
-    todos: {},  
+    todos: {},
 
   })
 
   const GetAllTodos = async () => {
     try {
-      await fetch("http://localhost:3000/todos")
+      await fetch("http://localhost:3000/todos/")
         .then(res => res.json())
         .then(data => {
           state.value.todos = data
@@ -47,8 +47,8 @@ const getTodos = () => {
         t_name: state.value.NewT_name,
         t_description: state.value.NewT_description,
         t_progress: state.value.NewT_progress,
-        t_due_date: state.value.NewT_due_date, 
-        t_priority:  state.value.NewT_priority,
+        t_due_date: state.value.NewT_due_date,
+        t_priority: state.value.NewT_priority,
         // t_status:  state.value.NewT_status,
       })
     }
@@ -96,7 +96,7 @@ const getTodos = () => {
       fetch("http://localhost:3000/todos")
         .then(res => res.json())
         .then(data => {
-          todo.value = data.filter(t => t._id === todoId.value)
+          todo.value = data.filter(t => t._id === todoId.value);
         })
     }
     catch (error) {
