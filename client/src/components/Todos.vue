@@ -70,65 +70,6 @@
                   </div>
                 </div>
               </div>
-  <div class="modal fade" id="modal2"  tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="taskModalLabel">Modify Task Information 🖌️</h5>
-            
-          </div>
-          <div class="modal-body" v-if="selectedTodo">
-            <form>
-              <div class="mb-3">
-                <label for="modalTaskName" class="form-label">{{ selectedTodo.t_name }}</label>
-                <br>
-                <input type="text" class="form-control" v-model="state.EditT_name" placeholder="New task name" >
-              </div>
-              <div class="mb-3">
-                <label for="modalTaskDesc" class="form-label"
-                  >Task Description</label
-                >
-                <input type="text" class="form-control" placeholder="Task Description" >
-              </div>
-              <div class="mb-3">
-                <label for="modalTaskProgress">Task Progress (1-10)</label>
-                <input
-                  type="range"
-                  class="form-range"
-                  min="0"
-                  max="100"
-                  step="10"
-                  id="modalTaskProgress"
-                  
-                />
-              </div>
-              <div class="mb-3">
-                <label for="modalTaskDueDate" class="form-label"
-                  >Task Due Date</label
-                >
-                <input type="text" class="form-control" placeholder="YEAR-MM-DD" >
-              </div>
-              <div class="mb-3">
-                <label for="modalTaskPriority">Task Priority</label>
-                <select class="form-select" id="modalTaskPriority">
-                  <option value="Low Priority">Low</option>
-                  <option value="Medium Priority">Medium</option>
-                  <option value="High Priority">High</option>
-                </select>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" id="modalCloseBtn" @click="closeModal('2')" class="btn btn-secondary"> Close </button>
-            <div id="button-container">
-              <button  type="button" id="modalSaveBtn" @click="editTodo" class="btn btn-success">
-                Save changes
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
               </div>
               </div>
@@ -144,7 +85,7 @@
                 <div class="card my-4 mx-5 col">
                   <div class="card-body">
                     <span>
-                      <a href="#"> <i class="bx bx-edit bx-pull-right icon text-secondary" style="font-size: 20px;" @click="openModal('2')" ></i> </a>
+                      <a href="#"> <i class="bx bx-edit bx-pull-right icon text-secondary" style="font-size: 20px;"  @click="openEditModal(todo)" ></i> </a>
                     </span>
                     <h5 class="card-title fw-bold">
                       {{todo.t_name}}
@@ -205,13 +146,7 @@
                   <div v-if="todo.t_priority === 'Low' && isDueDateLessThanThreeDays(todo)">
                   <div class="card my-4 mx-5 col">
                   <div class="card-body">
-                    <span>
-                      <a href="#">
-                        <i
-                          class="bx bx-edit bx-pull-right icon text-secondary" style="font-size: 20px;" @click="openModal('2')"
-                        ></i>
-                      </a>
-                    </span>
+                    <span> <a href="#"> <i class="bx bx-edit bx-pull-right icon text-secondary" style="font-size: 20px;"  @click="openEditModal(todo)"></i></a></span>
                     <h5 class="card-title fw-bold">
                       {{todo.t_name}}
                     </h5>
@@ -390,7 +325,64 @@
     </div>
 
     <!-- Edit Modal -->
-    
+    <div class="modal fade" id="modal_edit" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true" >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="taskModalLabel">Modify Task Information 🖌️</h5>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="modalTaskName" class="form-label">Task Name</label>
+                <br>
+                <input type="text" class="form-control" v-model="state.EditT_name" placeholder="New task name" style="color: grey;" >
+              </div>
+              <div class="mb-3">
+                <label for="modalTaskDesc" class="form-label"
+                  >Task Description</label
+                >
+                <input type="text" class="form-control" placeholder="Task Description" v-model="state.EditT_description" style="color: grey;">
+              </div>
+              <div class="mb-3">
+                <label for="modalTaskProgress">Task Progress (1-10)</label>
+                <input
+                  type="range"
+                  class="form-range"
+                  min="0"
+                  max="100"
+                  step="10"
+                  id="modalTaskProgress"
+                  v-model="state.EditT_progress"
+                  
+                />
+              </div>
+              <div class="mb-3">
+                <label for="modalTaskDueDate" class="form-label"
+                  >Task Due Date</label
+                >
+                <input type="text" class="form-control" placeholder="YEAR-MM-DD" >
+              </div>
+              <div class="mb-3">
+                <label for="modalTaskPriority">Task Priority</label>
+                <select class="form-select" id="modalTaskPriority" v-model="state.EditT_priority" >
+                  <option value="Low Priority">Low</option>
+                  <option value="Medium Priority">Medium</option>
+                  <option value="High Priority">High</option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer d-flex justify-content-between">
+              <button type="button" id="modalCloseBtn" @click="closeEditModal" class="btn btn-secondary">Close</button>
+            <div id="button-container">
+              <button type="button" id="modalSaveBtn" @click="saveEditAndClose" class="btn btn-success">Save Changes</button>
+              <button type="button" id="modalDeleteBtn" @click="deleteTodo" class="btn btn-danger ms-2">Delete Task</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
 
@@ -414,7 +406,6 @@ const app1 = createApp({
     const taskDueDate = ref('');
     const taskPriority = ref('');
     const taskStatus = ref('');
-    const selectedTodo = ref(null); // Initialize with null
 
     const openModalAdd = () => {
       modalTitle.value = 'Add New Task';
@@ -426,11 +417,36 @@ const app1 = createApp({
       taskStatus.value = '';
       let modal = new modal(document.getElementById('taskModal'));
       modal.show();
- 
     };
+
+    return {
+      modalTitle,
+      taskName,
+      taskDesc,
+      taskDueDate,
+      openModalAdd
+    };
+  }
+})
+app1.mount('#app1');
+
+const app2 = createApp({
+  setup() {
+    const selectedTodo = ref(null); // Initialize with null
+    const taskName = ref('');
+    const taskDesc = ref('');
+    const taskProgress = ref('');  
+    const taskDueDate = ref('');
+    const taskPriority = ref('');
+    const taskStatus = ref('');
 
     const openEditModal = () => {
       taskName.value = '';
+      taskDesc.value = '';
+      taskProgress.value = '';
+      taskDueDate.value = '';
+      taskPriority.value = '';
+      taskStatus.value = '';
 
       // Function to set the selected todo
       const selectTodo = (todo) => {
@@ -442,79 +458,18 @@ const app1 = createApp({
       selectTodo(todo);
 
       selectedTodo.value = todo; // Set the selectedTodo value
-      let modal = new modal(document.getElementById('modal2'));
+
+      let modal = new modal(document.getElementById('modal_edit'));
       modal.show();
+      
     };
-  
     return {
-      modalTitle,
-      openEditModal,
       selectedTodo,
-      taskName,
-      taskDesc,
-      taskDueDate,
-      openModalAdd
-    };
-  }
+      openEditModal,
+    }
+    }
 })
-app1.mount('#app1');
-
-// const app2 = createApp({
-//   setup() {
-//     const selectedTodo = ref(null); // Initialize with null
-
-//     // Function to set the selected todo
-//       const selectTodo = (todo) => {
-//       selectedTodo.value = todo;
-//       };
-
-//       // Example usage:
-//       const todo = { t_name:todo.t_name };
-//       selectTodo(todo);
-//     };
-
-//     const openEditModal = (todo) => {
-//     selectedTodo.value = todo; // Set the selectedTodo value
-//     let modal = new modal(document.getElementById('modal2'));
-//     modal.show();
-//   };
-//   }
-//     });
-
-// app2.mount('#app2');
-
-// createApp({
-//   setup() {
-//     const modalTitle = ref('Add New Task');
-//     const taskName = ref('');
-//     const taskDesc = ref('');
-//     const taskProgress = ref('');  
-//     const taskDueDate = ref('');
-//     const taskPriority = ref('');
-//     const taskStatus = ref('');
-
-//     const openModalEdit = (todo) => {
-//       modalTitle.value = 'Add New Task';
-//       taskName.value = todo.t_name;
-//       taskDesc.value = todo.t_description;
-//       taskProgress.value = todo.t_progress;  
-//       taskDueDate.value = todo.t_due_date;
-//       taskPriority.value = todo.t_priority;
-//       taskStatus.value = todo.t_status;
-//       let modal = new modal(document.getElementById('editModal'));
-   
-//       modal.show();
-//     };
-  
-//     return {
-//       modalTitle,
-//       taskName,
-//       taskDesc,
-//       taskDueDate,
-//       openModalEdit
-//     };
-//   }
-// }).mount('#app');
+app2.mount('#app2');
 
 
   export default {
@@ -523,14 +478,38 @@ app1.mount('#app1');
           this.modal_demo = new bootstrap.Modal('#modal_demo', {});
           this.hideModalAdd();
         },
-   
-    methods: {
 
+    methods: {
+      // Edit crud:
       openEditModal(todo) {
         this.state.EditT_name = todo.t_name;
-        this.modal_demo.show();
+        this.state.EditT_description = todo.t_description;
+        this.state.EditT_progress = todo.t_progress;
+        this.state.EditT_due_date = todo.t_due_date;
+        this.state.EditT_priority = todo.t_priority;
+        
+        $('#modal_edit').modal('show');
           },
 
+      closeEditModal() {
+      $('#modal_edit').modal('hide');
+          },
+
+          saveEditChanges() {   
+            // Clear input fields
+            this.state.NewT_name = '';
+            this.state.NewT_description = '';
+            this.state.NewT_progress = '';
+            this.state.NewT_due_date = '';
+            this.state.NewT_priority = '';
+          },
+          saveEditAndClose(_id) {
+            this.editTodo(_id); // Call the editTodo method with the _id parameter
+            this.saveEditChanges(); // Call the saveChanges method
+            $('#modal_edit').modal('hide');
+          },
+
+      // Add crud:
       openModalAdd() {
             this.modal_demo.show();
           },
@@ -554,9 +533,12 @@ app1.mount('#app1');
             this.modal_demo.hide(); // Call the closeModal method
           },
 
+      // refresh icon
       refreshPage() {
          location.reload();
       },
+
+      // sort icon
       sortTodosByDueDate(order) {
     this.state.todos.sort((a, b) => {
       const dateA = new Date(a.t_due_date);
@@ -564,19 +546,8 @@ app1.mount('#app1');
       return order === 'asc' ? dateA - dateB : dateB - dateA;
     });
   },
-  // ...
 
-  //   openModalEdit(todo) {
-  //   // Set the values of the input fields with the selected todo's data
-  //   this.taskName = todo.t_name;
-  //   console.log(todo.t_name)
-  //   this.taskDesc = todo.t_description;
-  //   this.taskDueDate = todo.t_due_date;
-  //   this.taskPriority = todo.t_priority;
-  //   this.taskStatus = todo.t_status;
-  //   // Open the modal using jQuery
-  //   $('#editModal').modal('show');
-  // },
+    // History and reminder icon
     openModal(modalId) {
       // Open the specified modal using jQuery
       $(`#modal${modalId}`).modal('show');
@@ -585,6 +556,7 @@ app1.mount('#app1');
       // Close the specified modal using jQuery
       $(`#modal${modalId}`).modal('hide');
     },
+
 
     isDueDateLessThanThreeDays(todo) {
       // Parse the due date from the string format
@@ -603,7 +575,7 @@ app1.mount('#app1');
   },
     setup() {
 
-      const { state, GetAllTodos, newTodo, deleteTodo, editTodo, GetTodoInProgress,GetSpecificTodo, GetTodoDone,GetTodoNow} = todocrud()
+      const { state, GetAllTodos, newTodo, deleteTodo, editTodo ,GetSpecificTodo } = todocrud()
 
       GetSpecificTodo()
 
@@ -622,7 +594,7 @@ app1.mount('#app1');
       return '';
     };
 
-      return { state, GetAllTodos, newTodo, deleteTodo, editTodo,GetTodoInProgress, GetTodoDone,GetTodoNow,getPriorityColor}
+      return { state, GetAllTodos, newTodo, deleteTodo, editTodo, getPriorityColor}
     },
         name : 'TodosComponent',
     }
