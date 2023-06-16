@@ -26,10 +26,10 @@ const TodosSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
-      t_status: {
-        type: String,
-        required: true,
-      },
+      // t_status: {
+      //   type: String,
+      //   required: true,
+      // },
    
 }, {timestamps: true});
 

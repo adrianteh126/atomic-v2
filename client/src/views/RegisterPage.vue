@@ -41,6 +41,15 @@
               <div class="form-row">
                 <div class="col-lg-8">
                   <input
+                    type="text"
+                    placeholder="User Name"
+                    class="form-control my-3 p-3"
+                  />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-lg-8">
+                  <input
                     type="email"
                     placeholder="Email Address"
                     class="form-control my-3 p-3"
@@ -67,7 +76,7 @@
               </div>
               <div class="form-row">
                 <div class="col-lg-8">
-                  <button type="button" class="btn1 mt-3 mb-5">Register</button>
+                  <button type="button" class="btn1 mt-3 mb-5" @click="handleRegistration">Register</button>
                 </div>
               </div>
               <p>Already have account? <a href="./login">Sign in here</a></p>
@@ -78,9 +87,10 @@
     </section>
   </template>
   
-  <script>
-  export default {
-  }
+  <script setup>
+    const handleRegistration = () => {
+      console.log('Register button clicked!');
+    }
 
   </script>
 

@@ -124,6 +124,14 @@ header .image-text .header-text {
 
 .header-text .name {
   font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  transition: var(--transition-05);
+}
+
+.name:hover {
+  transition: var(--transition-05);
+  color: var(--purple-color);
 }
 
 .header-text .profession {
