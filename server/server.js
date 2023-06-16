@@ -44,22 +44,6 @@ app.use(authRoutes);
 //   res.sendFile(path.join(__dirname, "index.html"));
 // })
 
-// app.get("/login", function (req, res) {
-//   res.sendFile(path.join(__dirname, "login.html"));
-// })
-
-// app.get("/dashboard", requireAuth, function (req, res) {
-//   res.sendFile(path.join(__dirname, "dashboard.html"));
-// })
-
-// app.get("/settings", requireAuth, function (req, res) {
-//   res.sendFile(path.join(__dirname, "settings.html"));
-// })
-
-// app.get("/statistic", requireAuth, function (req, res) {
-//   res.sendFile(path.join(__dirname, "statistic.html"));
-// })
-
 // cookies
 // const cookieParser = require('cookie-parser');
 // app.use(cookieParser());
@@ -67,7 +51,7 @@ app.use(authRoutes);
 // app.get('/set-cookies', (req, res) => {
 
 //   // res.setHeader('Set-Cookie', 'newUser=true');
-  
+
 //   res.cookie('newUser', false);
 //   res.cookie('isEmployee', true, { maxAge: 1000 * 60 * 60 * 24, httpOnly: true });
 
@@ -96,6 +80,9 @@ app.use(authRoutes);
 // modify the route name after integrate with frontend
 const TodosRoute = require('./routes/Todos');
 app.use('/todos', TodosRoute)
+
+const UserRoute = require('./routes/Users');
+app.use('/user', UserRoute)
 
 // const UsersRoute = require('./routes/Users');
 // app.use('/users', UsersRoute)

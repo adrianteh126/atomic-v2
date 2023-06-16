@@ -132,7 +132,7 @@
             password: this.password
           }),
           headers: { 'Content-Type': 'application/json' },
-          credentials: 'include'  // Include this option
+          credentials: 'include' // Include this option to send cookie
         });
 
         // Handle the response from the backend

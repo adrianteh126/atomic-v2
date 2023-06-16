@@ -1,34 +1,29 @@
 import { ref, computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 
 const getTodos = () => {
 
   const route = useRoute();
-  const router = useRouter();
 
   const todoId = computed(() => route.params.id)
   //console.log("todoId: ", todoId)
 
-  // const state = ref({
-  //   t_name: '', // string
-  //   t_description: '', // string
-  //   t_progress: 0, // number
-  //   t_due_date: new Date(), // date
-  //   t_priority: '', // string
-  //   t_status: '', // string
-  //   newAuthor: '', // string
-  //   newTodoItem: '', // string
-  // })
-
   const state = ref({
     newAuthor: '',
     newTodoItem: '',
-    todos: {}
+    NewT_name: '',
+    NewT_description: '',
+    NewT_progress: '',
+    NewT_due_date: '',
+    NewT_priority: '',
+    // NewT_status: '',
+    todos: {},
+
   })
 
   const GetAllTodos = async () => {
     try {
-      await fetch("http://localhost:3000/todos")
+      await fetch("http://localhost:3000/todos/")
         .then(res => res.json())
         .then(data => {
           state.value.todos = data
@@ -41,6 +36,7 @@ const getTodos = () => {
   }
 
   const newTodo = () => {
+    console.log("Sending newTodo request...");
     const requestOptions = {
       method: "POST",
       headers: {
@@ -48,10 +44,15 @@ const getTodos = () => {
         // "auth-token": state.token
       },
       body: JSON.stringify({
-        author: state.value.newAuthor,
-        todo: state.value.newTodoItem
+        t_name: state.value.NewT_name,
+        t_description: state.value.NewT_description,
+        t_progress: state.value.NewT_progress,
+        t_due_date: state.value.NewT_due_date,
+        t_priority: state.value.NewT_priority,
+        // t_status:  state.value.NewT_status,
       })
     }
+    console.log("Request payload:", requestOptions.body);
     fetch("http://localhost:3000/todos/new",
       requestOptions
     ).then(GetAllTodos())
@@ -71,17 +72,22 @@ const getTodos = () => {
         // "auth-token": state.token
       },
       body: JSON.stringify({
-        author: state.value.newAuthor,
-        todo: state.value.newTodoItem
+        t_name: state.value.NewT_name,
+        t_description: state.value.NewT_description,
+        t_progress: state.value.NewT_progress,
+        t_due_date: state.value.NewT_due_date,
+        t_priority: state.value.NewT_priority,
+        t_status: state.value.NewT_status,
       })
     }
     fetch("http://localhost:3000/todos/update/" + _id,
       requestOptions)
-      // .then(GetAllTodos())
+      .then(response => response.json())
+      .then(GetAllTodos())
       .then(res => res.body)
       .then(res => console.log(res))
       .then(alert('edited todo: ' + _id))
-    router.push('/todos')
+    // router.push('/todos')
   }
 
   const todo = ref({})
@@ -90,7 +96,7 @@ const getTodos = () => {
       fetch("http://localhost:3000/todos")
         .then(res => res.json())
         .then(data => {
-          todo.value = data.filter(t => t._id === todoId.value)
+          todo.value = data.filter(t => t._id === todoId.value);
         })
     }
     catch (error) {
