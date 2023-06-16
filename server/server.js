@@ -41,11 +41,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Routing
 app.use(authRoutes);
-app.get('*', checkUser);
-
-app.get("/", function (req, res) {
-  res.sendFile(path.join(__dirname, "index.html"));
-})
+// app.get('*', checkUser);
 
 // cookies
 // const cookieParser = require('cookie-parser');

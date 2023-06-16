@@ -6,63 +6,29 @@
       <div class="container-fluid">
         <div class="row"> 
           <!-- Header -->
-          <TopBar :currentUserID="currentUserID"/>
+          <TopBar :currentUserName="currentUserName"/>
           <!-- The Dashboard Body(Todos, Settings & Statistic) -->
           <router-view></router-view>
         </div>
       </div>
     </section>
+</template>
 
-
-
-
-  </template>
-
-  <script>
+<script>
   import SideNavBar from '@/components/SideNavBar.vue';
   import TopBar from '@/components/TopBar.vue';
   import todocrud from '../modules/todocrud';
-  import { onMounted } from 'vue';
+  import { onMounted, ref } from 'vue';
   import 'bootstrap/dist/js/bootstrap.bundle';
 
-
-
   export default {
-    
-    
     setup() {
-
       const { state, GetAllTodos, newTodo, deleteTodo, editTodo, GetTodoInProgress,GetTodoDone,GetTodoNow} = todocrud()
-
+      const currentUserID = ref(null);
+      const currentUserName = ref('');
 
       onMounted(() => {
         GetAllTodos()
-      })
-
-
-    const getPriorityColor = (priority) => {
-      if (priority === 'Low') {
-        return '#78d700';
-      } else if (priority === 'Medium') {
-        return '#ffa048';
-      } else if (priority === 'High') {
-        return '#ff7979';
-      }
-      return '';
-    };
-
-      return { state, GetAllTodos, newTodo, deleteTodo, editTodo,GetTodoInProgress,GetTodoDone,GetTodoNow,getPriorityColor}
-    },
-      components : {
-        SideNavBar,
-        TopBar,
-      },
-      data() {
-        return {
-          currentUserID: null          
-        }
-      },
-      mounted() {
         //check current userID using JWT token
         fetch('http://localhost:3000/checkUser', {
           method: 'GET',
@@ -70,15 +36,18 @@
         })
           .then(response => response.json())
           .then(data => {
+            const currentUser = data.user;
+            console.log(currentUser);
             // Handle the response data
-            this.currentUserID = data._id;
-            console.log('CurrentUserID = ' + data._id);
+            currentUserID.value = currentUser._id;
+            currentUserName.value = currentUser.user_name;
+            console.log('CurrentUserID = ' + currentUserID.value);
+            console.log('CurrentUserName = ' + currentUserName.value);
           })
           .catch(error => {
             // Handle any errors
             console.error('Error:', error);
           });
-
 
         // // Retrieve the JWT token from cookies
         // const cookies = document.cookie.split(';');
@@ -109,11 +78,29 @@
         //     // Handle any errors that occurred during the request
         //     console.error('Request error: ', error);
         //   });
+      })
+
+    const getPriorityColor = (priority) => {
+      if (priority === 'Low') {
+        return '#78d700';
+      } else if (priority === 'Medium') {
+        return '#ffa048';
+      } else if (priority === 'High') {
+        return '#ff7979';
+      }
+      return '';
+    };
+
+      return { state, GetAllTodos, newTodo, deleteTodo, editTodo,GetTodoInProgress,GetTodoDone,GetTodoNow,getPriorityColor,
+          currentUserID,currentUserName,     
         }
+    },
+      components : {
+        SideNavBar,
+        TopBar,
+      },
     }
   </script>
-
-  
   
   <style>
     @import '../assets/css/dashboard.css';
