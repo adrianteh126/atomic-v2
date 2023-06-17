@@ -1,5 +1,5 @@
 <template>
-  <h5 class="p-3 ps-4 mx-2 fw-bold ">Profile Setting ⚙️</h5>
+  <h5 class="p-3 ps-4 mx-2 fw-bold ">Profile Settings ⚙️</h5>
   <div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-lg-4 d-flex align-items-center justify-content-center flex-column">
@@ -104,21 +104,31 @@
 </template>
 
 <script>
+import { toRef } from 'vue';
 import usercrud from '../modules/usercrud'
+import router from '@/router';
 
 export default {
   name : 'SettingComponent',
   components : {
   },
+  props:{
+    currentUserID: {
+      type : String,
+      required: true,
+    },
+  },
 
-  setup() {
+  setup(props) {
+
     const { 
       state,
       getUserById,
       deleteUser,
       updateUser  } = usercrud()
 
-    getUserById('64897209f049858a942b8039') //using the current logged in userid
+    const currentUserID = toRef(props.currentUserID);
+    console.log('currentUserID.value = '+currentUserID.value);
 
     const widget = window.cloudinary.createUploadWidget(
       {cloud_name: "dt2tgkzda", upload_preset:"yzkmtsuc", maxFiles: 1},
@@ -131,15 +141,24 @@ export default {
           console.log('Assigned URL = '+state.value.newImageUrl);
         }
       }
-    );
-    
-
-    const openUploadWidget = () => {
-      widget.open();
-    }
-
-    return { 
-      state,
+      );
+      
+      const openUploadWidget = () => {
+        widget.open();
+      }
+      
+      //hardcode : redirect to dashboard to get the props userID 
+      const redirectToDashboard = async () => {
+        if (currentUserID.value == null) {
+          router.replace('/dashboard') // Push to a temporary route
+        }
+      };
+      
+      redirectToDashboard();
+      getUserById(currentUserID.value) //using the current logged in userid
+      
+      return { 
+        state,
       getUserById,
       deleteUser,
       updateUser,

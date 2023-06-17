@@ -8,7 +8,7 @@
           <!-- Header -->
           <TopBar :currentUserName="currentUserName"/>
           <!-- The Dashboard Body(Todos, Settings & Statistic) -->
-          <router-view></router-view>
+          <router-view :currentUserID="currentUserID"></router-view>
         </div>
       </div>
     </section>
@@ -37,12 +37,9 @@
           .then(response => response.json())
           .then(data => {
             const currentUser = data.user;
-            console.log(currentUser);
             // Handle the response data
             currentUserID.value = currentUser._id;
             currentUserName.value = currentUser.user_name;
-            console.log('CurrentUserID = ' + currentUserID.value);
-            console.log('CurrentUserName = ' + currentUserName.value);
           })
           .catch(error => {
             // Handle any errors

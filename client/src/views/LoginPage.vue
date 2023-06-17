@@ -152,7 +152,7 @@
           // const maxAge = 3 * 24 * 60 * 60;
           // document.cookie = `jwt=${token}; SameSite=None; Max-Age=${maxAge};`;
           console.log(document.cookie);
-          alert('Stop')
+          alert('Login successfully! ')
           location.assign('/dashboard');
         }
       } catch (err) {

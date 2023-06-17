@@ -137,7 +137,7 @@ export default {
       // Watch for changes in currentUserName
       watch(() => props.currentUserName, () => {
         // Perform any action when currentUserName changes
-        console.log('Current User Name:', props.currentUserName);
+        console.log('Current User Name in topbar:', props.currentUserName);
       });
 
       const setCurrentDate = (dateRef) => {

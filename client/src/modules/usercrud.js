@@ -22,7 +22,7 @@ const getUser = () => {
                 throw new Error(data.error)
             }
             state.value.user = data
-            console.log('Get user by id:', data._id)
+            console.log('client/src/modules/usercrud.js Get user by id:', data._id)
         } catch (error) {
             console.error('Error retrieving user:', error)
             // Handle error state or show error message to the user
