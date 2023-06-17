@@ -150,6 +150,57 @@
         console.log(err);
       }
     }
+  },
+
+  mounted() {
+        // Retrieve the JWT token from cookies
+        const cookies = document.cookie.split(';');
+        const JWTToken = cookies.find(cookie => cookie.trim().startsWith('jwt='));
+
+        // Request with the JWT token included in the headers
+        fetch('http://localhost:3000/authUser', {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            Authorization: `Bearer ${JWTToken}`
+          }
+        })
+          .then(response => {
+            if (response.ok) {
+              // Handle the successful response
+              return response.json();
+            } else {
+              console.log("Request failed!!!");
+              throw new Error('Request failed.');
+            }
+          })
+          .then(data => {
+            // Handle the response data
+            console.log(JSON.stringify(data));
+            if (data.decodedToken) {
+              if (window.location.pathname == "/dashboard/statistic") {
+                this.$router.push('/dashboard/statistic');
+              }
+              else if (window.location.pathname == "/dashboard/settings") {
+                this.$router.push('/dashboard/settings');
+              }
+              else if (window.location.pathname !== "/dashboard") {
+                location.assign("/dashboard");
+              }
+            }
+            else {
+              if (window.location.pathname !== "/login") {
+                  location.assign("/login");
+              }
+            }
+          })
+          .catch(error => {
+            // Handle any errors that occurred during the request
+            console.error('Request error: ', error);
+            if (window.location.pathname !== "/login") {
+                  location.assign("/login");
+            }
+          });
   }
   };
   </script>

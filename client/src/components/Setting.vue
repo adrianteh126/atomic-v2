@@ -1,5 +1,5 @@
 <template>
-  <h5 class="p-3 ps-4 mx-2 fw-bold ">Profile Setting ⚙️</h5>
+  <h5 class="p-3 ps-4 mx-2 fw-bold ">Profile Settings ⚙️</h5>
   <div class="container-fluid">
     <div class="row justify-content-center">
       <div class="col-lg-4 d-flex align-items-center justify-content-center flex-column">

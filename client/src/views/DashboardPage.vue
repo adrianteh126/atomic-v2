@@ -48,6 +48,12 @@
       
       components: { SideNavBar, TopBar },
 
+      data() {
+        return {
+          currentUserID: null          
+        }
+      },
+
       mounted() {
         // Retrieve the JWT token from cookies
         const cookies = document.cookie.split(';');
@@ -74,27 +80,30 @@
             // Handle the response data
             console.log(JSON.stringify(data));
             if (data.decodedToken) {
-              if (window.location.pathname !== "/dashboard") {
+              if (window.location.pathname == "/dashboard/statistic") {
+                this.$router.push('/dashboard/statistic');
+              }
+              else if (window.location.pathname == "/dashboard/settings") {
+                this.$router.push('/dashboard/settings');
+              }
+              else if (window.location.pathname !== "/dashboard") {
                 location.assign("/dashboard");
               }
             }
             else {
-              location.assign("/");
+              if (window.location.pathname !== "/login") {
+                  location.assign("/login");
+              }
             }
           })
           .catch(error => {
             // Handle any errors that occurred during the request
             console.error('Request error: ', error);
-            location.assign("/");
+            if (window.location.pathname !== "/login") {
+                  location.assign("/login");
+            }
           });
-      },
 
-      data() {
-        return {
-          currentUserID: null          
-        }
-      },
-      mounted() {
         // check current userID using JWT token
         fetch('http://localhost:3000/checkUser', {
           method: 'GET',
