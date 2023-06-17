@@ -62,6 +62,7 @@ const routes = [
         name: "StatisticPage",
         component: StatisticPage,
         meta: { title: "Statistic" },
+
       },
     ],
   },

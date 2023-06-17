@@ -6,7 +6,7 @@
       <div class="container-fluid">
         <div class="row"> 
           <!-- Header -->
-          <TopBar :currentUserName="currentUserName"/>
+          <TopBar :currentUserName="currentUserName" :currentUserImageUrl="currentUserImageUrl"/>
           <!-- The Dashboard Body(Todos, Settings & Statistic) -->
           <router-view :currentUserID="currentUserID"></router-view>
         </div>
@@ -26,6 +26,7 @@
       const { state, GetAllTodos, newTodo, deleteTodo, editTodo, GetTodoInProgress,GetTodoDone,GetTodoNow} = todocrud()
       const currentUserID = ref(null);
       const currentUserName = ref('');
+      const currentUserImageUrl = ref('');
 
       onMounted(() => {
         GetAllTodos()
@@ -36,10 +37,10 @@
         })
           .then(response => response.json())
           .then(data => {
-            const currentUser = data.user;
             // Handle the response data
-            currentUserID.value = currentUser._id;
-            currentUserName.value = currentUser.user_name;
+            currentUserID.value = data.user._id;
+            currentUserName.value = data.user.user_name;
+            currentUserImageUrl.value = data.user.image_url;
           })
           .catch(error => {
             // Handle any errors
@@ -89,7 +90,7 @@
     };
 
       return { state, GetAllTodos, newTodo, deleteTodo, editTodo,GetTodoInProgress,GetTodoDone,GetTodoNow,getPriorityColor,
-          currentUserID,currentUserName,     
+          currentUserID,currentUserName,currentUserImageUrl     
         }
     },
       components : {

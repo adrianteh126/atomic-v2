@@ -128,7 +128,6 @@ export default {
 </script>
 
 <style>
-@import "../assets/css/style.css";
 @import "../assets/css/bootstrap.min.css";
 @import url("https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.19/fullpage.min.css");
 

@@ -13,7 +13,7 @@
                     class="mx-3 pp"
                   >
                     <img
-                      src="/images/Profile.svg"
+                     :src="currentUserImageUrl"
                       alt="your_image_alt_text"
                     />
                   </div>
@@ -125,7 +125,7 @@ export default {
     }
 
     },
-    props: ['currentUserName'],
+    props: ['currentUserName','currentUserImageUrl'],
     setup(props) {
       const currentDate = ref('');
       
@@ -135,9 +135,14 @@ export default {
       });
 
       // Watch for changes in currentUserName
-      watch(() => props.currentUserName, () => {
+      watch(() => {
+        props.currentUserName;
+        props.currentUserImageUrl; 
+      },
+      () => {
         // Perform any action when currentUserName changes
         console.log('Current User Name in topbar:', props.currentUserName);
+        console.log('Current User Image Url in topbar:', props.currentUserImageUrl);
       });
 
       const setCurrentDate = (dateRef) => {

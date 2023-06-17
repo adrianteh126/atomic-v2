@@ -82,6 +82,7 @@ const getUser = () => {
                     .then(() => {
                         router.replace('/dashboard/settings'); // Push back to the original route
                     });
+
             })
             .catch(error => {
                 console.error('Error updating user:', error);

@@ -1,7 +1,7 @@
 <template>
 <section>
 <div class="d-flex justify-content-between align-items-center">
-  <h4 class="p-4 fw-bold">Dashboard 📝</h4>
+  <h5 class="p-3 ps-3 mx-2 fw-bold ">Dashboard 📝</h5>
   <div class="col-8">
       <div class="d-flex justify-content-end align-items-center">
         <i class="bi bi-arrow-clockwise" style="margin-right: 20px; font-size: 25px;" @click="refreshPage"></i>
@@ -14,8 +14,8 @@
     <section class="content">
             <div class="row">
               <!-- To do List --------------------------------------------------------------------------------------------------->
-              <div id="to-do-list-col" class="col-lg-4 border">
-                <div class="d-flex mt-4 mx-5 justify-content-between">
+              <div id="to-do-list-col" class="col-lg-4 ">
+                <div class="d-flex mt-2 mx-5 justify-content-between">
                   <p class="text-secondary" style="font-size: 20px;">To Do❗</p>
                 </div>
                 <div v-for="todo in state.todos" :key="todo._id">
@@ -70,14 +70,12 @@
                   </div>
                 </div>
               </div>
-
               </div>
               </div>
-                
 
               <!-- In Progress  ---------------------------------------------------------------------------------------------->
-              <div id="to-do-list-col" class="col-lg-4 border">
-                <div class="d-flex mt-4 mx-5 justify-content-between">
+              <div id="to-do-list-col" class="col-lg-4 ">
+                <div class="d-flex mt-2 mx-5 justify-content-between">
                   <p class="text-secondary" style="font-size: 20px;">In Progress ✏️</p>
                 </div>
                 <div v-for="todo in state.todos" :key="todo._id">
@@ -138,8 +136,8 @@
               </div>
 
               <!-- Done---------------------------------------------------------------------------------------------------------- -->
-              <div id="to-do-list-col" class="col-lg-4 border">
-                <div class="d-flex mt-4 mx-5 justify-content-between">
+              <div id="to-do-list-col" class="col-lg-4 ">
+                <div class="d-flex mt-2 mx-5 justify-content-between">
                   <p class="text-secondary" style="font-size: 20px;">Done ✅</p>
                 </div>
                 <div v-for="todo in state.todos" :key="todo._id">
