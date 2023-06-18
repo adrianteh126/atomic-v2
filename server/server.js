@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Handle CORS + middleware
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:8081"); //Change according to frontend port 
+  res.header("Access-Control-Allow-Origin", "http://localhost:8080"); //Change according to frontend port 
   // res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS, POST, PUT, DELETE");
   res.header("Access-Control-Allow-Headers", "Content-Type, Accept");
@@ -41,7 +41,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // Routing
 app.use(authRoutes);
-app.get('*', checkUser);
+// app.get('*', checkUser);
 
 app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "index.html"));

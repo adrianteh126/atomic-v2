@@ -1,10 +1,10 @@
 import { ref, computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute,  } from 'vue-router'
 
 const getTodos = () => {
 
   const route = useRoute();
-  const router = useRouter();
+  // const router = useRouter();
 
   const todoId = computed(() => route.params.id)
   //console.log("todoId: ", todoId)
@@ -83,11 +83,12 @@ const getTodos = () => {
     }
     fetch("http://localhost:3000/todos/update/" + _id,
       requestOptions)
-      // .then(GetAllTodos())
+      .then(response => response.json())
+      .then(GetAllTodos())
       .then(res => res.body)
       .then(res => console.log(res))
       .then(alert('edited todo: ' + _id))
-    router.push('/todos')
+    // router.push('/todos')
   }
 
   const todo = ref({})

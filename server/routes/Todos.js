@@ -61,15 +61,15 @@ app.delete('/delete/:id', async (req, res) => {
 app.put('/update/:id', async (req, res) => {
   const tUpdate = await Todo.updateOne(
     { _id: req.params.id },
-    // { $set: req.body }
-    {
-      t_name: 'Testing assignment',
-      t_description: 'Finish the testing task',
-      t_progress: 5,
-      t_due_date: new Date('2023-07-15'), // Replace with the actual due date
-      t_priority: 'Low',
-      t_status: 'DONE',
-    }
+    { $set: req.body }
+    // {
+    //   t_name: 'Testing assignment',
+    //   t_description: 'Finish the testing task',
+    //   t_progress: 5,
+    //   t_due_date: new Date('2023-07-15'), // Replace with the actual due date
+    //   t_priority: 'Low',
+    //   t_status: 'DONE',
+    // }
   );
   res.json(tUpdate);
   console.log("Route : Update todo by id " + req.params.id);
