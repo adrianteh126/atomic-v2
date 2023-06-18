@@ -8,6 +8,7 @@ import SettingPage from "../components/Setting.vue";
 import StatisticPage from "../components/Statistic.vue";
 import ForgotPassword from "../views/ForgotPassword.vue";
 import ResetPassword from "../views/ResetPassword.vue";
+import TestPage from "../views/TestPage.vue";
 
 const routes = [
   {
@@ -65,6 +66,12 @@ const routes = [
 
       },
     ],
+  },
+  {
+    path: "/test",
+    name: "testPage",
+    component: TestPage,
+    meta: { title: "Test Page" },
   },
 ];
 
