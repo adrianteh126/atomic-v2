@@ -5,21 +5,18 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const authRoutes = require('./routes/authRoutes');
 const cookieParser = require('cookie-parser');
-const { requireAuth, checkUser } = require('./middleware/authMiddleware');
 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 
 // Handle CORS + middleware
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "http://localhost:8081"); //Change according to frontend port 
-  // res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET, HEAD, OPTIONS, POST, PUT, DELETE");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Accept");
+  res.header("Access-Control-Allow-Origin", "http://localhost:8080");
+  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");  // If using .fetch and not axios
+  res.header("Access-Control-Allow-Headers", "auth-token, Origin, X-Requested-With, Content-Type, Accept, Authorization");
   res.header("Access-Control-Allow-Credentials", "true");
   next();
 });
-
 app.use(express.json());
 app.use(cookieParser());
 

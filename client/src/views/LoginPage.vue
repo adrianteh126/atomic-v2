@@ -18,8 +18,6 @@
             <h1 class="font-weight-bold py-3">Atomic</h1>
             <h4>Sign into your account</h4>
             <form @submit="handleSubmit">
-              <div class="email error">{{ emailError }}</div>
-              <div class="password error">{{ passwordError }}</div>
               <div class="form-row">
                 <div class="col-lg-8">
                   <input
@@ -114,17 +112,12 @@
     data() {
       return {
         email: '',
-        password: '',
-        emailError: '',
-        passwordError: ''
+        password: ''
       };
     },
   methods: {
     async handleSubmit(e) {
       e.preventDefault();
-
-      this.emailError = '';
-      this.passwordError = '';
 
       try {
         const res = await fetch('http://localhost:3000/login', {
@@ -139,28 +132,74 @@
 
         // Handle the response from the backend
         const data = await res.json();
-
-        console.log('data = ' + JSON.stringify(data));
         
         if (data.errors) {
-          this.emailError = data.errors.email;
-          this.passwordError = data.errors.password;
+          if (data.errors.email) {
+            alert(data.errors.email);
+          }
+          if (data.errors.password) {
+            alert(data.errors.password);
+          }
         }
-
         if (data.user) {
-          // hardcode : pass value from :3000/login
-          const token = data.token;
-          console.log('token = '+ token);
-          // const maxAge = 3 * 24 * 60 * 60;
-          // document.cookie = `jwt=${token}; SameSite=None; Max-Age=${maxAge};`;
-          console.log(document.cookie);
-          alert('Login successfully! ')
           location.assign('/dashboard');
+          alert("Dear user, welcome back to your Atomic account!!!");
         }
       } catch (err) {
         console.log(err);
       }
     }
+  },
+
+  mounted() {
+        // Retrieve the JWT token from cookies
+        const cookies = document.cookie.split(';');
+        const JWTToken = cookies.find(cookie => cookie.trim().startsWith('jwt='));
+
+        // Request with the JWT token included in the headers
+        fetch('http://localhost:3000/authUser', {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            Authorization: `Bearer ${JWTToken}`
+          }
+        })
+          .then(response => {
+            if (response.ok) {
+              // Handle the successful response
+              return response.json();
+            } else {
+              console.log("Request failed!!!");
+              throw new Error('Request failed.');
+            }
+          })
+          .then(data => {
+            // Handle the response data
+            console.log(JSON.stringify(data));
+            if (data.decodedToken) {
+              if (window.location.pathname == "/dashboard/statistic") {
+                this.$router.push('/dashboard/statistic');
+              }
+              else if (window.location.pathname == "/dashboard/settings") {
+                this.$router.push('/dashboard/settings');
+              }
+              else if (window.location.pathname !== "/dashboard") {
+                location.assign("/dashboard");
+              }
+            }
+            else {
+              if (window.location.pathname !== "/login") {
+                  location.assign("/login");
+              }
+            }
+          })
+          .catch(error => {
+            // Handle any errors that occurred during the request
+            console.error('Request error: ', error);
+            if (window.location.pathname !== "/login") {
+                  location.assign("/login");
+            }
+          });
   }
   };
   </script>
