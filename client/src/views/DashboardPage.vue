@@ -30,7 +30,23 @@
 
       onMounted(() => {
         GetAllTodos()
-      });
+        //check current userID using JWT token
+        fetch('http://localhost:3000/checkUser', {
+          method: 'GET',
+          credentials: 'include' // Include this option to send cookies
+        })
+          .then(response => response.json())
+          .then(data => {
+            // Handle the response data
+            currentUserID.value = data.user._id;
+            currentUserName.value = data.user.user_name;
+            currentUserImageUrl.value = data.user.image_url;
+          })
+          .catch(error => {
+            // Handle any errors
+            console.error('Error:', error);
+          });
+        })
 
       const getPriorityColor = (priority) => {
         if (priority === 'Low') {
@@ -44,16 +60,9 @@
       };
 
       return { state, GetAllTodos, newTodo, deleteTodo, editTodo, GetTodoInProgress, GetTodoDone, GetTodoNow, getPriorityColor, currentUserID, currentUserName, currentUserImageUrl }
-
     },
       
       components: { SideNavBar, TopBar },
-
-      data() {
-        return {
-          currentUserID: null          
-        }
-      },
 
       mounted() {
         // Retrieve the JWT token from cookies
@@ -103,23 +112,6 @@
             if (window.location.pathname !== "/login") {
                   location.assign("/login");
             }
-          });
-
-        // check current userID using JWT token
-        fetch('http://localhost:3000/checkUser', {
-          method: 'GET',
-          credentials: 'include' // Include this option to send cookies
-        })
-          .then(response => response.json())
-          .then(data => {
-            // Handle the response data
-            currentUserID.value = data.user._id;
-            currentUserName.value = data.user.user_name;
-            currentUserImageUrl.value = data.user.image_url;
-          })
-          .catch(error => {
-            // Handle any errors
-            console.error('Error:', error);
           });
       }
   }
