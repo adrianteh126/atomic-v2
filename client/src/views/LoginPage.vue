@@ -18,8 +18,6 @@
             <h1 class="font-weight-bold py-3">Atomic</h1>
             <h4>Sign into your account</h4>
             <form @submit="handleSubmit">
-              <div class="email error">{{ emailError }}</div>
-              <div class="password error">{{ passwordError }}</div>
               <div class="form-row">
                 <div class="col-lg-8">
                   <input
@@ -112,17 +110,12 @@
     data() {
       return {
         email: '',
-        password: '',
-        emailError: '',
-        passwordError: ''
+        password: ''
       };
     },
   methods: {
     async handleSubmit(e) {
       e.preventDefault();
-
-      this.emailError = '';
-      this.passwordError = '';
 
       try {
         const res = await fetch('http://localhost:3000/login', {
@@ -137,14 +130,18 @@
 
         // Handle the response from the backend
         const data = await res.json();
-        console.log('data = ' + JSON.stringify(data));
         
         if (data.errors) {
-          this.emailError = data.errors.email;
-          this.passwordError = data.errors.password;
+          if (data.errors.email) {
+            alert(data.errors.email);
+          }
+          if (data.errors.password) {
+            alert(data.errors.password);
+          }
         }
         if (data.user) {
           location.assign('/dashboard');
+          alert("Dear user, welcome back to your Atomic account!!!");
         }
       } catch (err) {
         console.log(err);
