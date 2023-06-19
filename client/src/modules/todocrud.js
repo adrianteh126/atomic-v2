@@ -35,8 +35,8 @@ const getTodos = () => {
     }
   }
 
+  // todos/new : create new todo 
   const newTodo = () => {
-    console.log("Sending newTodo request...");
     const requestOptions = {
       method: "POST",
       headers: {
@@ -56,11 +56,13 @@ const getTodos = () => {
     fetch("http://localhost:3000/todos/new",
       requestOptions
     ).then(GetAllTodos())
+    console.log("todocrud.js : created new todo");
   }
 
   const deleteTodo = (_id) => {
     fetch("http://localhost:3000/todos/delete/" + _id, { method: "DELETE" })
       .then(GetAllTodos())
+      .then(alert('Successfully delete task!'))
   }
 
   const editTodo = (_id) => {
@@ -77,7 +79,7 @@ const getTodos = () => {
         t_progress: state.value.NewT_progress,
         t_due_date: state.value.NewT_due_date,
         t_priority: state.value.NewT_priority,
-        t_status: state.value.NewT_status,
+        // t_status: state.value.NewT_status,
       })
     }
     fetch("http://localhost:3000/todos/update/" + _id,

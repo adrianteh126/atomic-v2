@@ -3,7 +3,7 @@
     <section class="header">
             <div class="row border-bottom py-2">
               <div class="col-4">
-                <h5 class="fw-bold mx-4 mt-2">{{ currentUserID }}'s Atomic</h5>
+                <h5 class="fw-bold mx-4 mt-2">{{ currentUserName }}'s Atomic</h5>
               </div>
               <div class="col-8">
                 <div class="d-flex justify-content-end align-items-center">
@@ -13,7 +13,7 @@
                     class="mx-3 pp"
                   >
                     <img
-                      src="/images/Profile.svg"
+                     :src="currentUserImageUrl"
                       alt="your_image_alt_text"
                     />
                   </div>
@@ -125,7 +125,7 @@ export default {
     }
 
     },
-    props: ['currentUserID'],
+    props: ['currentUserName','currentUserImageUrl'],
     setup(props) {
       const currentDate = ref('');
       
@@ -134,10 +134,15 @@ export default {
         startUpdatingCurrentDate(currentDate);
       });
 
-      // Watch for changes in currentUserID
-      watch(() => props.currentUserID, () => {
-        // Perform any action when currentUserID changes
-        console.log('Current User ID:', props.currentUserID);
+      // Watch for changes in currentUserName
+      watch(() => {
+        props.currentUserName;
+        props.currentUserImageUrl; 
+      },
+      () => {
+        // Perform any action when currentUserName changes
+        console.log('Current User Name in topbar:', props.currentUserName);
+        console.log('Current User Image Url in topbar:', props.currentUserImageUrl);
       });
 
       const setCurrentDate = (dateRef) => {

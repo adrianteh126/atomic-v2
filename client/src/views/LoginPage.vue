@@ -54,10 +54,12 @@
                   </a>
                 </div>
               </div>
-              <a href="/forgotPassword">Forgot Password</a>
+              <a href="/forgotPassword">
+                <span class="purple-link">Forgot Password</span>
+              </a>
               <p>
                 Don't Have an account?
-                <a href="./register">Register Here</a>
+                <a href="./register"><span class="purple-link">Register Here</span></a>
               </p>
             </form>
           </div>
@@ -152,7 +154,7 @@
           // const maxAge = 3 * 24 * 60 * 60;
           // document.cookie = `jwt=${token}; SameSite=None; Max-Age=${maxAge};`;
           console.log(document.cookie);
-          alert('Stop')
+          alert('Login successfully! ')
           location.assign('/dashboard');
         }
       } catch (err) {
@@ -171,4 +173,5 @@
         display: block;
       }
     }
+
   </style>
