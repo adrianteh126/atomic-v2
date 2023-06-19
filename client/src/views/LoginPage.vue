@@ -52,10 +52,12 @@
                   </a>
                 </div>
               </div>
-              <a href="/forgotPassword">Forgot Password</a>
+              <a href="/forgotPassword">
+                <span class="purple-link">Forgot Password</span>
+              </a>
               <p>
                 Don't Have an account?
-                <a href="./register">Register Here</a>
+                <a href="./register"><span class="purple-link">Register Here</span></a>
               </p>
             </form>
           </div>
@@ -210,4 +212,5 @@
         display: block;
       }
     }
+
   </style>

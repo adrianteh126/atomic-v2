@@ -120,18 +120,16 @@ import TopNavBar from "@/components/TopNavBar.vue";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap/dist/js/bootstrap.js";
 
-    export default {
-      components : {
-        TopNavBar,
-      }
-    }
+export default {
+  components: {
+    TopNavBar,
+  },
+};
+</script>
 
-  </script>
-  
-  <style>
-    @import '../assets/css/style.css';
-    @import '../assets/css/bootstrap.min.css';
-    @import url('https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.19/fullpage.min.css');    
+<style>
+@import "../assets/css/bootstrap.min.css";
+@import url("https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/4.0.19/fullpage.min.css");
 
 .logo-title {
   font-family: "Arial", sans-serif;

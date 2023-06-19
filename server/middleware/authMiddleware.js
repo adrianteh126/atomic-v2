@@ -22,7 +22,7 @@ const requireAuth = (req, res, next) => {
   }
 };
 
-// check current user
+// check current user 
 const checkUser = (req, res, next) => {
   const token = req.cookies.jwt;
   if (token) {
@@ -33,9 +33,9 @@ const checkUser = (req, res, next) => {
         res.status(401).json({ error: 'Invalid token' });
       } else {
         let user = await User.findById(decodedToken.id);
-        res.locals.user = user;
         console.log('middleware/authMiddleware.js : checkUser valid - ' + user._id);
-        res.json({ _id: user._id });
+        res.locals.user = user;
+        res.status(200).json({ user }); // Include the user object in the response
       }
     });
   } else {

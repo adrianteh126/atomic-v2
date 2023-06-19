@@ -6,26 +6,27 @@
       <div class="container-fluid">
         <div class="row"> 
           <!-- Header -->
-          <TopBar :currentUserID="currentUserID"/>
+          <TopBar :currentUserName="currentUserName" :currentUserImageUrl="currentUserImageUrl"/>
           <!-- The Dashboard Body(Todos, Settings & Statistic) -->
-          <router-view></router-view>
+          <router-view :currentUserID="currentUserID"></router-view>
         </div>
       </div>
     </section>
-  </template>
+</template>
 
-  <script>
+<script>
   import SideNavBar from '@/components/SideNavBar.vue';
   import TopBar from '@/components/TopBar.vue';
   import todocrud from '../modules/todocrud';
-  import { onMounted } from 'vue';
+  import { onMounted, ref } from 'vue';
   import 'bootstrap/dist/js/bootstrap.bundle';
 
   export default {
-    
     setup() {
-
-      const { state, GetAllTodos, newTodo, deleteTodo, editTodo, GetTodoInProgress,GetTodoDone,GetTodoNow } = todocrud()
+      const { state, GetAllTodos, newTodo, deleteTodo, editTodo, GetTodoInProgress,GetTodoDone,GetTodoNow} = todocrud()
+      const currentUserID = ref(null);
+      const currentUserName = ref('');
+      const currentUserImageUrl = ref('');
 
       onMounted(() => {
         GetAllTodos()
@@ -42,7 +43,7 @@
         return '';
       };
 
-      return { state, GetAllTodos, newTodo, deleteTodo, editTodo, GetTodoInProgress, GetTodoDone, GetTodoNow, getPriorityColor }
+      return { state, GetAllTodos, newTodo, deleteTodo, editTodo, GetTodoInProgress, GetTodoDone, GetTodoNow, getPriorityColor, currentUserID, currentUserName, currentUserImageUrl }
 
     },
       
@@ -112,19 +113,17 @@
           .then(response => response.json())
           .then(data => {
             // Handle the response data
-            this.currentUserID = data._id;
-            console.log('CurrentUserID = ' + data._id);
+            currentUserID.value = data.user._id;
+            currentUserName.value = data.user.user_name;
+            currentUserImageUrl.value = data.user.image_url;
           })
           .catch(error => {
             // Handle any errors
             console.error('Error:', error);
           });
       }
-
   }
-  </script>
-
-  
+</script>
   
   <style>
     @import '../assets/css/dashboard.css';

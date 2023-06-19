@@ -11,7 +11,7 @@ app.get('/get/:id', async (req, res) => {
     if (!t) {
       return res.status(404).json({ error: 'User not found' });
     }
-    console.log('Users.js: Get user by id ' + t._id); // Log the _id value
+    console.log('server/routes/Users.js: Get user by id ' + t._id); // Log the _id value
     res.json(t);
   } catch (error) {
     console.error('Error retrieving user:', error);

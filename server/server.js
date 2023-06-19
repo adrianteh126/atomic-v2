@@ -40,10 +40,6 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(authRoutes);
 // app.get('*', checkUser);
 
-// app.get("/", function (req, res) {
-//   res.sendFile(path.join(__dirname, "index.html"));
-// })
-
 // cookies
 // const cookieParser = require('cookie-parser');
 // app.use(cookieParser());
