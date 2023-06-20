@@ -92,7 +92,7 @@
               type="button"
               class="btn btn-danger"
               id="btnDeleteaccount"
-              @click="deleteUser(state.user._id)"
+              @click="quit(state.user._id)"
             >
               Delete Account
             </button>
@@ -174,28 +174,28 @@ export default {
       }
     },
     methods : {
-    
-      // showSaveChangesModal() {
-      //   // Logic to show the save changes modal
-      // },
-      // showDeleteAccountModal() {
-      //   // Logic to show the delete account modal
-      // },
-      // async saveChanges() {
-      //   // Logic to save changes
-      //   const { updateUser } = getUser()
-      //   const newUserData = {
-      //     user_name: this.username,
-      //     email: this.email,
-      //     password: this.password
-      //   }
-      //   await updateUser(newUserData)
-      // },
-      // async deleteAccount() {
-      //   // Logic to delete the account
-      //   const { deleteUser } = getUser()
-      //   await deleteUser()
-      // }
+      quit(currentUserID) {
+      this.deleteUser(currentUserID);
+      fetch('http://localhost:3000/logout', {
+        method: 'GET',
+        credentials: 'include'
+      })
+        .then(response => {
+          if (response.ok) {
+            // Redirect or perform any necessary actions after successful logout
+            window.location.href = '/';
+          } else {
+            throw new Error('Logout request failed.');
+          }
+        })
+        .catch(error => {
+          // Handle any errors that occurred during the logout request
+          console.error('Logout error: ', error);
+        });
+      },
+      logout() {
+        
+      }
     }
 }
 </script>
