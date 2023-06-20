@@ -60,12 +60,14 @@ module.exports.login_get = (req, res) => {
 }
 
 module.exports.signup_post = async (req, res) => {
-  const { user_name, email, password1, password2 } = req.body;
+  const { username, email, password1, password2 } = req.body;
   const image_url = "https://res.cloudinary.com/dt2tgkzda/image/upload/v1686811626/atnny5s7szxcaleyomi6.jpg";
+  console.log({ username, email, password1, password2 });
+  console.log(image_url);
   
   try {
     if (password1 === password2) {
-      const user = await User.create({ user_name: user_name, email: email, password: password1, image_url: image_url }); // let user to uplaod img and store in image_url later
+      const user = await User.create({ user_name: username, email: email, password: password1, image_url: image_url }); // let user to uplaod img and store in image_url later
       const token = createToken(user._id);
       res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
       res.status(201).json({ user: user._id, token: token });
