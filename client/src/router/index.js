@@ -3,12 +3,12 @@ import LandingPage from "../views/LandingPage.vue";
 import LoginPage from "../views/LoginPage.vue";
 import RegisterPage from "../views/RegisterPage.vue";
 import DashboardPage from "../views/DashboardPage.vue";
-import TodosPage from "../components/Todos.vue";
+import TodosPage from "../components/TodosView.vue";
 import SettingPage from "../components/Setting.vue";
 import StatisticPage from "../components/Statistic.vue";
 import ForgotPassword from "../views/ForgotPassword.vue";
 import ResetPassword from "../views/ResetPassword.vue";
-import TestPage from "../views/TestPage.vue";
+
 
 const routes = [
   {
@@ -66,12 +66,6 @@ const routes = [
 
       },
     ],
-  },
-  {
-    path: "/test",
-    name: "testPage",
-    component: TestPage,
-    meta: { title: "Test Page" },
   },
 ];
 
