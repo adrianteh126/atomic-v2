@@ -49,7 +49,7 @@
         </div>
         <div class="bottom-content pb-3">
           <li class="">
-            <a href="/" @click="logout">
+            <a href="" @click="logout">
               <i class="bx bx-log-out icon-bottom"></i>
               <span class="text nav-text">Logout</span>
             </a>
