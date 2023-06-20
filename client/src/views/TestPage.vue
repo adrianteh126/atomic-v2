@@ -37,7 +37,7 @@
                         <p class="text-secondary" style="font-size: 20px;">To Do❗</p>
                     </div>
                     <div v-for="todo in state.todos" :key="todo._id">
-                        <div v-if="todo.t_priority === 'High'">
+                        <div v-if="todo.t_progress ===0">
                             <div class="card my-4 mx-5 col">
                                 <div class="card-body">
                                     <!-- Edit task button -->
@@ -103,7 +103,7 @@
                         <p class="text-secondary" style="font-size: 20px;">In Progress ✏️</p>
                     </div>
                     <div v-for="todo in state.todos" :key="todo._id">
-                        <div v-if="todo.t_priority === 'Medium'">
+                        <div v-if="todo.t_progress > 1 && todo.t_progress<10">
                             <div class="card my-4 mx-5 col">
                                 <div class="card-body">
                                     <!-- Edit task button -->
@@ -169,7 +169,7 @@
                         <p class="text-secondary" style="font-size: 20px;">Done ✅</p>
                     </div>
                     <div v-for="todo in state.todos" :key="todo._id">
-                        <div v-if="todo.t_priority === 'Low'">
+                        <div v-if="todo.t_progress === 10 && isDueDateLessThanThreeDays(todo)">
                             <div class="card my-4 mx-5 col">
                                 <div class="card-body">
                                     <!-- Edit task button -->
@@ -291,9 +291,24 @@
       return '';
     };
 
+    const isDueDateLessThanThreeDays = ref((todo) => {
+        // Parse the due date from the string format
+        const dueDate = new Date(todo.t_due_date);
+
+        // Get the current date
+        const currentDate = new Date();
+
+        // Calculate the difference between the due date and the current date
+        const differenceInTime = dueDate.getTime() - currentDate.getTime();
+        const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+
+        // Return true if the difference is less than 3 days, otherwise false
+        return differenceInDays >= -3;
+    });
+
     onMounted(() => {
         GetAllTodos();
     });
-  
+    
   </script>
   
