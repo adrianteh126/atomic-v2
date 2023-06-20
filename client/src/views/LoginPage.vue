@@ -6,12 +6,10 @@
     <section class="form mt-5">
       <div class="container-fluid">
         <div class="row no-gutters">
-          <div class="col-lg-7 g-0 image-display">
+          <div class="col-lg-7 g-0 image display">
             <img
               src="/images/Login.png"
-              class="'img-fluid float-end"
-              width="100%"
-              height="760px"
+              class="img-responsive d-none d-xl-block"
             />
           </div>
           <div class="col-lg-5 px-5 pt-5">

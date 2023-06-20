@@ -3,9 +3,10 @@ const TodosSchema = new mongoose.Schema({
     // All _ids we store here must be document _ids from the user model.
     // t - task
     // need to store user-id from user collection
-    // user_id: {
-    //     type: String, 
-    // },
+    user_id: {
+        type: String, 
+        required: true,
+    },
       t_name: {
         type: String,
         required: true,

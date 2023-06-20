@@ -23,12 +23,42 @@ const getTodos = () => {
 
   const GetAllTodos = async () => {
     try {
-      await fetch("http://localhost:3000/todos/")
-        .then(res => res.json())
-        .then(data => {
-          state.value.todos = data
-          // debugger
+      let userId = ""
+
+      await fetch('http://localhost:3000/authUser', {
+        method: 'GET',
+        credentials: 'include',
+      })
+        .then(response => {
+          if (response.ok) {
+            // Handle the successful response
+            return response.json();
+          } else {
+            console.log("Request failed!!!");
+            throw new Error('Request failed.');
+          }
         })
+        .then(data => {
+          // Handle the response data
+          console.log(JSON.stringify(data));
+          userId = data.decodedToken.id
+        })
+        .catch(error => {
+          // Handle any errors that occurred during the request
+          console.error('Request error: ', error);
+        });
+
+      if (userId) {
+        console.log(userId)
+        await fetch("http://localhost:3000/todos/")
+          .then(res => res.json())
+          .then(data => {
+            console.log(data)
+            const filteredData = data.filter((todo) => todo.user_id === userId);
+            state.value.todos = filteredData;
+            // debugger
+          })
+      }
     }
     catch (error) {
       console.log(error) // do different error to showcase - line 15 wrong name + line13 with incorrect path
@@ -36,7 +66,34 @@ const getTodos = () => {
   }
 
   // todos/new : create new todo 
-  const newTodo = () => {
+  const newTodo = async () => {
+    let userId = ""
+
+    await fetch('http://localhost:3000/authUser', {
+      method: 'GET',
+      credentials: 'include',
+    })
+      .then(response => {
+        if (response.ok) {
+          // Handle the successful response
+          return response.json();
+        } else {
+          console.log("Request failed!!!");
+          throw new Error('Request failed.');
+        }
+      })
+      .then(data => {
+        // Handle the response data
+        console.log(JSON.stringify(data));
+        userId = data.decodedToken.id
+      })
+      .catch(error => {
+        // Handle any errors that occurred during the request
+        console.error('Request error: ', error);
+      });
+
+      console.log(userId)
+
     const requestOptions = {
       method: "POST",
       headers: {
@@ -44,6 +101,7 @@ const getTodos = () => {
         // "auth-token": state.token
       },
       body: JSON.stringify({
+        user_id: userId,
         t_name: state.value.NewT_name,
         t_description: state.value.NewT_description,
         t_progress: state.value.NewT_progress,
@@ -53,7 +111,7 @@ const getTodos = () => {
       })
     }
     console.log("Request payload:", requestOptions.body);
-    fetch("http://localhost:3000/todos/new",
+    await fetch("http://localhost:3000/todos/new",
       requestOptions
     ).then(GetAllTodos())
     console.log("todocrud.js : created new todo");
