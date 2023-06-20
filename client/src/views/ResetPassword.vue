@@ -18,12 +18,11 @@
           <h1 class="font-weight-bold py-3">Atomic</h1>
           <h4>Reset your password</h4>
           <form @submit="handleSubmit">
-            <div class="email error">{{ emailError }}</div>
-            <div class="password error">{{ passwordError }}</div>
             <div class="form-row">
               <div class="col-lg-8">
                 <input
                   type="password"
+                  v-model="password1"
                   placeholder="Password"
                   class="form-control my-3 p-3"
                 />
@@ -33,6 +32,7 @@
               <div class="col-lg-8">
                 <input
                   type="password"
+                  v-model="password2"
                   placeholder="Confirm Password"
                   class="form-control my-3 p-3"
                 />
@@ -102,57 +102,97 @@ import TopNavBar from "@/components/TopNavBar.vue";
 export default {
   components: { TopNavBar },
 
-  data() {
-    return {
-      email: "",
-      password: "",
-      emailError: "",
-      passwordError: "",
-    };
-  },
-  methods: {
-    async handleSubmit(e) {
-      e.preventDefault();
+    data() {
+      return {
+        password1: '',
+        password2: ''
+      };
+    },
 
-      this.emailError = "";
-      this.passwordError = "";
+    methods: {
+      async handleSubmit(e) {
+        e.preventDefault();
 
-      try {
-        const res = await fetch("http://localhost:3000/login", {
-          method: "POST",
+        const currentURL = new URL(window.location.href);
+        const email = currentURL.searchParams.get("email");
+
+        try {
+          const res = await fetch('http://localhost:3000/resetPassword/:id/:token', {
+          method: 'POST',
           body: JSON.stringify({
-            email: this.email,
-            password: this.password,
+            password1: this.password1,
+            password2: this.password2,
+            email: email
           }),
-          headers: { "Content-Type": "application/json" },
-          credentials: "include", // Include this option to send cookie
-        });
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include' // Include this option to send cookie
+          });
 
-        // Handle the response from the backend
-        const data = await res.json();
-
-        console.log("data = " + JSON.stringify(data));
-
-        if (data.errors) {
-          this.emailError = data.errors.email;
-          this.passwordError = data.errors.password;
+          // Handle the response from the backend
+          const data = await res.json();
+        
+          if (data.status) {
+            alert("Status: Your Atomic account password has been successfully reset");
+            location.assign("/login");
+          }
+          if (data.error && data.error.password) {
+            console.log(data.error.password);
+            alert("Error: " + data.error.password);
+          }
+        } catch (err) {
+          console.log(err);
         }
-
-        if (data.user) {
-          // hardcode : pass value from :3000/login
-          const token = data.token;
-          console.log("token = " + token);
-          // const maxAge = 3 * 24 * 60 * 60;
-          // document.cookie = `jwt=${token}; SameSite=None; Max-Age=${maxAge};`;
-          console.log(document.cookie);
-          alert("Stop");
-          location.assign("/dashboard");
-        }
-      } catch (err) {
-        console.log(err);
       }
     },
-  },
+
+      mounted() {
+        const currentURL = window.location.href;
+        const urlParts = currentURL.split('/');
+        const id = urlParts[4];
+        const token = urlParts[5];
+        console.log("ID: " + id);
+        console.log("Token: " + token);
+
+        fetch(`http://localhost:3000/resetPassword/${id}/${token}`, {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+          .then(response => {
+            if (response.ok) {
+              // Handle the successful response
+              return response.json();
+            } else {
+              console.log("Request failed!!!");
+              throw new Error('Request failed.');
+            }
+          })
+          .then(data => {
+            // Handle the response data
+            if (data.query) {
+              this.$router.push({
+                name: 'resetPasswordPage',
+                params: {
+                  id: id,
+                  token: token
+                },
+                query: {
+                  email: data.query.email,
+                  status: data.query.status
+                }
+              });
+            }
+            else {
+              console.log(data);
+            }
+          })
+          .catch(error => {
+            // Handle any errors that occurred during the request
+            console.error('Request error: ', error);
+          });
+      }
 };
 </script>
 

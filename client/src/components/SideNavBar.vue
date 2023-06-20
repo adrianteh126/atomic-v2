@@ -1,4 +1,4 @@
-<template >
+<template>
       <!-- Side Navbar -->
       <nav class="sidebar close border border-1">
       <header class="pt-3">
@@ -49,7 +49,7 @@
         </div>
         <div class="bottom-content pb-3">
           <li class="">
-            <a href="/">
+            <a href="" @click="logout">
               <i class="bx bx-log-out icon-bottom"></i>
               <span class="text nav-text">Logout</span>
             </a>
@@ -69,11 +69,34 @@
       </div>
       </nav>
 </template>
-  <script>
+
+<script>
   export default {
-      name : 'SideNavBar',
+    name: 'SideNavBar',
+    
+    methods: {
+      logout() {
+        fetch('http://localhost:3000/logout', {
+          method: 'GET',
+          credentials: 'include'
+        })
+          .then(response => {
+            if (response.ok) {
+              // Redirect or perform any necessary actions after successful logout
+              window.location.href = '/';
+            } else {
+              throw new Error('Logout request failed.');
+            }
+          })
+          .catch(error => {
+            // Handle any errors that occurred during the logout request
+            console.error('Logout error: ', error);
+          });
+      }
+    }
   }
 </script>
+
 <style>
     
 </style>

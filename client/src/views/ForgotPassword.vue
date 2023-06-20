@@ -19,8 +19,6 @@
           <h4>Lost your password?</h4>
           <h5>Recover it now</h5>
           <form @submit="handleSubmit">
-            <div class="email error">{{ emailError }}</div>
-            <div class="password error">{{ passwordError }}</div>
             <div class="form-row">
               <div class="col-lg-8">
                 <input
@@ -97,25 +95,18 @@ export default {
 
   data() {
     return {
-      email: "",
-      password: "",
-      emailError: "",
-      passwordError: "",
+      email: ""
     };
   },
   methods: {
     async handleSubmit(e) {
       e.preventDefault();
 
-      this.emailError = "";
-      this.passwordError = "";
-
       try {
-        const res = await fetch("http://localhost:3000/login", {
+        const res = await fetch("http://localhost:3000/forgotPassword", {
           method: "POST",
           body: JSON.stringify({
             email: this.email,
-            password: this.password,
           }),
           headers: { "Content-Type": "application/json" },
           credentials: "include", // Include this option to send cookie
@@ -124,22 +115,12 @@ export default {
         // Handle the response from the backend
         const data = await res.json();
 
-        console.log("data = " + JSON.stringify(data));
-
-        if (data.errors) {
-          this.emailError = data.errors.email;
-          this.passwordError = data.errors.password;
+        if (data.payload) {
+          alert("Please kindly check your email to reset your Atomic account password. Thank you!!!");
         }
 
-        if (data.user) {
-          // hardcode : pass value from :3000/login
-          const token = data.token;
-          console.log("token = " + token);
-          // const maxAge = 3 * 24 * 60 * 60;
-          // document.cookie = `jwt=${token}; SameSite=None; Max-Age=${maxAge};`;
-          console.log(document.cookie);
-          alert("Stop");
-          location.assign("/dashboard");
+        if (data.error) {
+          alert("Your email address is not found. Please kindly enter again your registered email address. Thank you!!!");
         }
       } catch (err) {
         console.log(err);

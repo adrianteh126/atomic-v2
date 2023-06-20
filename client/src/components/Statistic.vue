@@ -1,15 +1,11 @@
 <template>
+  <h5 class="p-3 ps-4 mx-2 fw-bold ">Statistic 📊</h5>
   <div class="container-fluid">
     <div class="row">
       <!-- header -->
-
-      <h3 class="py-2 pt-4 px-5 fw-bold">
-        Hey Keat, Lets Check out your productivity!
-      </h3>
-
-      <div class="section">
+     <div class="section">
         <div class="row">
-          <h5 class="fw-bold px-5" id="taskStatus">
+          <h5 class="fw-bold px-5 " id="taskStatus">
             This Week Completed: On Going:
           </h5>
           <div class="col-md-5" style="height: 80px">

@@ -6,63 +6,30 @@
       <div class="container-fluid">
         <div class="row"> 
           <!-- Header -->
-          <TopBar :currentUserID="currentUserID"/>
+          <TopBar :currentUserName="currentUserName" :currentUserImageUrl="currentUserImageUrl"/>
           <!-- The Dashboard Body(Todos, Settings & Statistic) -->
-          <router-view></router-view>
+          <router-view :currentUserID="currentUserID"></router-view>
         </div>
       </div>
     </section>
+</template>
 
-
-
-
-  </template>
-
-  <script>
+<script>
   import SideNavBar from '@/components/SideNavBar.vue';
   import TopBar from '@/components/TopBar.vue';
   import todocrud from '../modules/todocrud';
-  import { onMounted } from 'vue';
+  import { onMounted, ref } from 'vue';
   import 'bootstrap/dist/js/bootstrap.bundle';
 
-
-
   export default {
-    
-    
     setup() {
-
       const { state, GetAllTodos, newTodo, deleteTodo, editTodo, GetTodoInProgress,GetTodoDone,GetTodoNow} = todocrud()
-
+      const currentUserID = ref(null);
+      const currentUserName = ref('');
+      const currentUserImageUrl = ref('');
 
       onMounted(() => {
         GetAllTodos()
-      })
-
-
-    const getPriorityColor = (priority) => {
-      if (priority === 'Low') {
-        return '#78d700';
-      } else if (priority === 'Medium') {
-        return '#ffa048';
-      } else if (priority === 'High') {
-        return '#ff7979';
-      }
-      return '';
-    };
-
-      return { state, GetAllTodos, newTodo, deleteTodo, editTodo,GetTodoInProgress,GetTodoDone,GetTodoNow,getPriorityColor}
-    },
-      components : {
-        SideNavBar,
-        TopBar,
-      },
-      data() {
-        return {
-          currentUserID: null          
-        }
-      },
-      mounted() {
         //check current userID using JWT token
         fetch('http://localhost:3000/checkUser', {
           method: 'GET',
@@ -71,49 +38,84 @@
           .then(response => response.json())
           .then(data => {
             // Handle the response data
-            this.currentUserID = data._id;
-            console.log('CurrentUserID = ' + data._id);
+            currentUserID.value = data.user._id;
+            currentUserName.value = data.user.user_name;
+            currentUserImageUrl.value = data.user.image_url;
           })
           .catch(error => {
             // Handle any errors
             console.error('Error:', error);
           });
+        })
 
-
-        // // Retrieve the JWT token from cookies
-        // const cookies = document.cookie.split(';');
-        // const JWTToken = cookies.find(cookie => cookie.trim().startsWith('jwt='));
-
-        // // Request with the JWT token included in the headers
-        // fetch('http://localhost:3000/authUser', {
-        //   method: 'GET',
-        //   credentials: 'include',
-        //   headers: {
-        //     Authorization: `Bearer ${JWTToken}`
-        //   }
-        // })
-        //   .then(response => {
-        //     if (response.ok) {
-        //       // Handle the successful response
-        //       return response.json();
-        //     } else {
-        //       location.assign('/login');
-        //       // throw new Error('Request failed.');
-        //     }
-        //   })
-        //   .then(data => {
-        //     // Handle the response data
-        //     console.log(data);
-        //   })
-        //   .catch(error => {
-        //     // Handle any errors that occurred during the request
-        //     console.error('Request error: ', error);
-        //   });
+      const getPriorityColor = (priority) => {
+        if (priority === 'Low') {
+          return '#78d700';
+        } else if (priority === 'Medium') {
+          return '#ffa048';
+        } else if (priority === 'High') {
+          return '#ff7979';
         }
-    }
-  </script>
+        return '';
+      };
 
-  
+      return { state, GetAllTodos, newTodo, deleteTodo, editTodo, GetTodoInProgress, GetTodoDone, GetTodoNow, getPriorityColor, currentUserID, currentUserName, currentUserImageUrl }
+    },
+      
+      components: { SideNavBar, TopBar },
+
+      mounted() {
+        // Retrieve the JWT token from cookies
+        const cookies = document.cookie.split(';');
+        const JWTToken = cookies.find(cookie => cookie.trim().startsWith('jwt='));
+
+        // Request with the JWT token included in the headers
+        fetch('http://localhost:3000/authUser', {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            Authorization: `Bearer ${JWTToken}`
+          }
+        })
+          .then(response => {
+            if (response.ok) {
+              // Handle the successful response
+              return response.json();
+            } else {
+              console.log("Request failed!!!");
+              throw new Error('Request failed.');
+            }
+          })
+          .then(data => {
+            // Handle the response data
+            console.log(JSON.stringify(data));
+            if (data.decodedToken) {
+              if (window.location.pathname == "/dashboard/statistic") {
+                this.$router.push('/dashboard/statistic');
+              }
+              else if (window.location.pathname == "/dashboard/settings") {
+                this.$router.push('/dashboard/settings');
+              }
+              else if (window.location.pathname !== "/dashboard") {
+                location.assign("/dashboard");
+              }
+            }
+            else {
+              if (window.location.pathname !== "/login") {
+                  location.assign("/login");
+              }
+            }
+          })
+          .catch(error => {
+            // Handle any errors that occurred during the request
+            console.error('Request error: ', error);
+            if (window.location.pathname !== "/login") {
+                  location.assign("/login");
+            }
+          });
+      }
+  }
+</script>
   
   <style>
     @import '../assets/css/dashboard.css';

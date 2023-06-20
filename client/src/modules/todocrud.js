@@ -1,10 +1,9 @@
 import { ref, computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 
 const getTodos = () => {
 
   const route = useRoute();
-  const router = useRouter();
 
   const todoId = computed(() => route.params.id)
   //console.log("todoId: ", todoId)
@@ -36,8 +35,8 @@ const getTodos = () => {
     }
   }
 
+  // todos/new : create new todo 
   const newTodo = () => {
-    console.log("Sending newTodo request...");
     const requestOptions = {
       method: "POST",
       headers: {
@@ -57,11 +56,13 @@ const getTodos = () => {
     fetch("http://localhost:3000/todos/new",
       requestOptions
     ).then(GetAllTodos())
+    console.log("todocrud.js : created new todo");
   }
 
   const deleteTodo = (_id) => {
     fetch("http://localhost:3000/todos/delete/" + _id, { method: "DELETE" })
       .then(GetAllTodos())
+      .then(alert('Successfully delete task!'))
   }
 
   const editTodo = (_id) => {
@@ -78,16 +79,26 @@ const getTodos = () => {
         t_progress: state.value.NewT_progress,
         t_due_date: state.value.NewT_due_date,
         t_priority: state.value.NewT_priority,
-        t_status: state.value.NewT_status,
+        // t_status: state.value.NewT_status,
       })
     }
     fetch("http://localhost:3000/todos/update/" + _id,
       requestOptions)
-      // .then(GetAllTodos())
-      .then(res => res.body)
-      .then(res => console.log(res))
-      .then(alert('edited todo: ' + _id))
-    router.push('/todos')
+      // .then(response => response.json())
+      // .then(res => res.body)
+      // .then(res => console.log(res))
+      // .then(alert('edited todo: ' + _id))
+
+      .then(res => res.json())
+      .then(data => {
+        console.log(data); // Handle the response data as needed
+      })
+      .then(GetAllTodos())
+      .catch(error => {
+        console.error("Error:", error);
+        // Handle the error appropriately
+      });
+    // router.push('/todos')
   }
 
   const todo = ref({})

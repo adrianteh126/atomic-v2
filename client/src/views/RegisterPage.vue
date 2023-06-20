@@ -37,11 +37,12 @@
           <div class="col-lg-5 px-5 pt-5">
             <h1 class="font-weight-bold py-1">Atomic</h1>
             <h4>Register to Atomic!</h4>
-            <form>
+            <form @submit="handleSubmit">
               <div class="form-row">
                 <div class="col-lg-8">
                   <input
                     type="text"
+                    v-model="username"
                     placeholder="User Name"
                     class="form-control my-3 p-3"
                   />
@@ -51,6 +52,7 @@
                 <div class="col-lg-8">
                   <input
                     type="email"
+                    v-model="email"
                     placeholder="Email Address"
                     class="form-control my-3 p-3"
                   />
@@ -60,6 +62,7 @@
                 <div class="col-lg-8">
                   <input
                     type="password"
+                    v-model="password1"
                     placeholder="Password"
                     class="form-control my-3 p-3"
                   />
@@ -69,6 +72,7 @@
                 <div class="col-lg-8">
                   <input
                     type="password"
+                    v-model="password2"
                     placeholder="Confirm Password"
                     class="form-control my-3 p-3"
                   />
@@ -76,7 +80,15 @@
               </div>
               <div class="form-row">
                 <div class="col-lg-8">
-                  <button type="button" class="btn1 mt-3 mb-5" @click="handleRegistration">Register</button>
+                  <a href=" ">
+                    <button 
+                      type="submit"
+                      id="registerButton" 
+                      class="btn1 mt-3 mb-5"
+                    >
+                      Register
+                    </button>
+                  </a>
                 </div>
               </div>
               <p>Already have account? <a href="./login">Sign in here</a></p>
@@ -87,10 +99,62 @@
     </section>
   </template>
   
-  <script setup>
-    const handleRegistration = () => {
-      console.log('Register button clicked!');
+  <script>
+
+  export default {
+    data() {
+      return {
+        username: '',
+        email: '',
+        password1: '',
+        password2: ''
+      }
+    },
+
+    methods: {
+      async handleSubmit(e) {
+        e.preventDefault()
+
+        try {
+          const res = await fetch('http://localhost:3000/signup', {
+            method: 'POST',
+            body: JSON.stringify({
+              username: this.username,
+              email: this.email,
+              password1: this.password1,
+              password2: this.password2
+            }),
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include' // Include this option to send cookie
+          });
+
+          // Handle the response from the backend
+          const data = await res.json();
+
+          if (data.user) {
+            alert("Dear user, you have successfully registered an Atomic account. Welcome!!!");
+            location.assign('/dashboard');
+          }
+
+          if (data.error && data.error.password) {
+            console.log(data.error.password);
+            alert("Error: " + data.error.password);
+          }
+
+          if (data.errors) {
+            if (data.errors.email) {
+              alert(data.errors.email);
+            }
+            if (data.errors.password) {
+              alert(data.errors.password);
+            }
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      }
     }
+  }
 
   </script>
 
