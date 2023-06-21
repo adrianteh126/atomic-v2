@@ -29,9 +29,7 @@
           <div class="col-lg-7">
             <img
               src="/images/Register.png"
-              class="'img-fluid float-end d-none d-lg-block"
-              width="990px"
-              height="760px"
+              class="img-responsive d-none d-xl-block"
             />
           </div>
           <div class="col-lg-5 px-5 pt-5">
