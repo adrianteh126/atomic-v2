@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   });
 
-  // Fetch data from the API for status and priority
+  // Fetch data from the API for status and priority chart
   fetch("http://localhost:3000/todos/")
     .then((response) => response.json())
     .then((data) => {
@@ -208,7 +208,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return weekNumber;
   }
 
-  // Fetch data from the API for the weekly chart to update the weekly status
+  // Fetch data from the API for the weekly chart to update the weekly status weektext
   fetch("http://localhost:3000/todos/")
     .then((response) => response.json())
     .then((data) => {
@@ -306,7 +306,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   };
 
-  // Fetch data from the API for the latest 7 days
+  // Fetch data from the API for the latest 7 days stackbarchart
   const currentDate = new Date();
   const startDate = new Date();
   startDate.setDate(currentDate.getDate() - 6); // Subtract 6 days to get the start date
@@ -357,13 +357,3 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Error:", error);
     });
 });
-
-fetch("http://localhost:3000/todos/")
-  .then((response) => response.json())
-  .then((data) => {
-    // Process the data retrieved from the API
-    console.log(data);
-  })
-  .catch((error) => {
-    console.error("Error:", error);
-  });
