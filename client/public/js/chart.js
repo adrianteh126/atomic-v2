@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   });
 
-  // Fetch data from the API for status and priority
+  // Fetch data from the API for status and priority chart
   fetch("http://localhost:3000/todos/")
     .then((response) => response.json())
     .then((data) => {
@@ -127,12 +127,18 @@ document.addEventListener("DOMContentLoaded", function () {
       const statusCounts = {
         "To do": 0,
         "In Progress": 0,
-        DONE: 0,
+        Done: 0,
       };
 
       data.forEach((item) => {
         priorityCounts[item.t_priority]++;
-        statusCounts[item.t_status]++;
+        if (item.t_progress === 0) {
+          statusCounts["To do"]++;
+        } else if (item.t_progress >= 1 && item.t_progress <= 9) {
+          statusCounts["In Progress"]++;
+        } else if (item.t_progress === 10) {
+          statusCounts["Done"]++;
+        }
       });
 
       const priorityValues = [
@@ -144,7 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const statusValues = [
         statusCounts["To do"],
         statusCounts["In Progress"],
-        statusCounts["DONE"],
+        statusCounts["Done"],
       ];
 
       // Update the priority chart data
@@ -177,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const createdAtDate = new Date(item.createdAt);
         const createdAtWeek = getWeekNumber(createdAtDate);
 
-        if (item.t_status === "DONE" && currentWeek - createdAtWeek <= 3) {
+        if (item.t_progress === 10 && currentWeek - createdAtWeek <= 3) {
           const weekIndex = currentWeek - createdAtWeek;
           weeklyTasksCompleted[weekIndex]++;
         }
@@ -202,7 +208,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return weekNumber;
   }
 
-  // Fetch data from the API for the weekly chart to update the weekly status
+  // Fetch data from the API for the weekly chart to update the weekly status weektext
   fetch("http://localhost:3000/todos/")
     .then((response) => response.json())
     .then((data) => {
@@ -217,11 +223,11 @@ document.addEventListener("DOMContentLoaded", function () {
         const createdAtDate = new Date(item.createdAt);
         const createdAtWeek = getWeekNumber(createdAtDate);
 
-        if (item.t_status === "DONE" && currentWeek === createdAtWeek) {
+        if (item.t_progress === 10 && currentWeek === createdAtWeek) {
           completedCount++;
         }
 
-        if (item.t_status === "To do" || item.t_status === "In Progress") {
+        if (item.t_progress != 10 && currentWeek === createdAtWeek) {
           ongoingCount++;
         }
       });
@@ -300,7 +306,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   };
 
-  // Fetch data from the API for the latest 7 days
+  // Fetch data from the API for the latest 7 days stackbarchart
   const currentDate = new Date();
   const startDate = new Date();
   startDate.setDate(currentDate.getDate() - 6); // Subtract 6 days to get the start date
@@ -317,19 +323,20 @@ document.addEventListener("DOMContentLoaded", function () {
         const createdAtDate = new Date(item.createdAt);
 
         if (
-          item.t_status === "To do" &&
+          item.t_progress === 0 &&
           createdAtDate >= startDate &&
           createdAtDate <= currentDate
         ) {
           todoCount++;
         } else if (
-          item.t_status === "In Progress" &&
+          item.t_progress >= 1 &&
+          item.t_progress <= 9 &&
           createdAtDate >= startDate &&
           createdAtDate <= currentDate
         ) {
           ongoingCount++;
         } else if (
-          item.t_status === "DONE" &&
+          item.t_progress === 10 &&
           createdAtDate >= startDate &&
           createdAtDate <= currentDate
         ) {
