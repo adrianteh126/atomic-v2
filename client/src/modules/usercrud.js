@@ -14,6 +14,7 @@ const getUser = () => {
         newImageUrl: '',
     })
 
+    // backend : Get current user based on ID 
     const getUserById = async (id) => {
         try {
             const response = await fetch(`http://localhost:3000/user/get/${id}`)
@@ -29,6 +30,7 @@ const getUser = () => {
         }
     }
 
+    // backend : Delete  user based on ID 
     const deleteUser = (_id) => {
         fetch(`http://localhost:3000/user/delete/${_id}`, { method: "DELETE" })
             .then(console.log('modules/usercrud.js : Delete user by id ' + _id))
@@ -38,6 +40,7 @@ const getUser = () => {
 
     }
 
+    // backend : Update  user based on ID 
     const updateUser = (userId) => {
         // const { user_name, email, password, confirm_password } = state.value; // Get the user inputs from the state
         const user_name = state.value.newUserName;

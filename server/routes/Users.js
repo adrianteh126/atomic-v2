@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 
+// Get current user based on ID
 app.get('/get/:id', async (req, res) => {
   try {
     const t = await User.findById({ _id: req.params.id });
@@ -19,6 +20,7 @@ app.get('/get/:id', async (req, res) => {
   }
 });
 
+// Delete user based on ID
 app.delete('/delete/:id', async (req, res) => {
   try {
     const tDelete = await User.findByIdAndDelete({ _id: req.params.id });
@@ -33,6 +35,7 @@ app.delete('/delete/:id', async (req, res) => {
   }
 });
 
+// Update user based on ID
 app.put('/update/:id', async (req, res) => {
 
   try {

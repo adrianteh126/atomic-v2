@@ -59,12 +59,13 @@ module.exports.login_get = (req, res) => {
   res.sendFile(path.join(__dirname, "../login.html"));
 }
 
+// Create a new user 
 module.exports.signup_post = async (req, res) => {
   const { username, email, password1, password2 } = req.body;
   const image_url = "https://res.cloudinary.com/dt2tgkzda/image/upload/v1686811626/atnny5s7szxcaleyomi6.jpg";
   console.log({ username, email, password1, password2 });
   console.log(image_url);
-  
+
   try {
     if (password1 === password2) {
       const user = await User.create({ user_name: username, email: email, password: password1, image_url: image_url }); // let user to uplaod img and store in image_url later
@@ -91,7 +92,6 @@ module.exports.login_post = async (req, res) => {
   try {
     const user = await User.login(email, password);
     const token = createToken(user._id);
-    const currentUserId = res.get('Set-Cookie')
     res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
     res.status(200).json({ user: user._id, token: token });
 
@@ -140,14 +140,14 @@ module.exports.forgot_password_post = async (req, res, next) => {
       let error = "Email Not Found"
       await res.status(400).json({ error: error });
     }
-  } catch (error) { 
+  } catch (error) {
     console.log(error);
-  } 
+  }
 }
 
-module.exports.reset_password_get = async(req, res, next) => {
-  const {id, token} = req.params;
-  console.log({id, token});
+module.exports.reset_password_get = async (req, res, next) => {
+  const { id, token } = req.params;
+  console.log({ id, token });
   try {
     // check if whether user exists in database
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -162,20 +162,20 @@ module.exports.reset_password_get = async(req, res, next) => {
     const secret = jwt_secret + oldUser.password;
     const payload = jwt.verify(token, secret);
     const query = {
-      email: payload.email, 
+      email: payload.email,
       status: "Not verified."
     };
     console.log("Query" + query);
     res.status(200).json({ query: query });
   } catch (error) {
     console.log(error.message)
-    res.status(400).json({error});
+    res.status(400).json({ error });
   }
 }
 
-module.exports.reset_password_post = async(req, res, next) => {
+module.exports.reset_password_post = async (req, res, next) => {
   // extract from the url
-  const {password1, password2, email} = req.body;
+  const { password1, password2, email } = req.body;
   try {
     if (password1 === password2) {
       // Hash the password
@@ -183,8 +183,8 @@ module.exports.reset_password_post = async(req, res, next) => {
       const encryptedPassword = await bcrypt.hash(password2, salt);
       // Check password1 and password2 whether if they are matched
       // Update in database with new password
-      const status = await User.findOneAndUpdate({email: email}, {password: encryptedPassword});
-      res.status(200).json({ status: status });  
+      const status = await User.findOneAndUpdate({ email: email }, { password: encryptedPassword });
+      res.status(200).json({ status: status });
     }
     if (password1 !== password2) {
       let error = {

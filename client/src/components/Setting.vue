@@ -8,22 +8,6 @@
         <button id="uploadImg" @click="openUploadWidget()" class="btn btn-dark mt-2">Upload Image</button>
       </div>
       <div class="col-lg-6 my-3">
-        <!-- <p>
-          State : user {{ state.user }}
-        </p>
-        <br>
-        <p>State : input 
-          <br>
-          newUserName - {{ state.newUserName }}
-          <br>
-          newEmail - {{ state.newEmail }}
-          <br>
-          newPassword - {{ state.newPassword }}
-          <br>
-          newConfirmPassword - {{ state.newConfirmPassword }}
-          <br>
-          newImageUrl - {{  state.newImageUrl }}
-        </p> -->
         <form @submit.prevent="updateUser(state.user._id)">
           <div class="form-row">
             <div class="col-lg-8">
@@ -173,29 +157,32 @@ export default {
         confirmPassword: '',
       }
     },
-    methods : {
+    methods: {
       quit(currentUserID) {
-      this.deleteUser(currentUserID);
-      fetch('http://localhost:3000/logout', {
-        method: 'GET',
-        credentials: 'include'
-      })
-        .then(response => {
-          if (response.ok) {
-            // Redirect or perform any necessary actions after successful logout
-            window.location.href = '/';
-          } else {
-            throw new Error('Logout request failed.');
-          }
-        })
-        .catch(error => {
-          // Handle any errors that occurred during the logout request
-          console.error('Logout error: ', error);
-        });
-      },
-      logout() {
-        
+        // Display a confirmation prompt
+        const confirmDelete = confirm("Are you sure you want to delete your account? This action cannot be undone.");
+
+        if (confirmDelete) {
+          this.deleteUser(currentUserID);
+          fetch('http://localhost:3000/logout', {
+            method: 'GET',
+            credentials: 'include'
+          })
+            .then(response => {
+              if (response.ok) {
+                // Redirect or perform any necessary actions after successful logout
+                window.location.href = '/';
+              } else {
+                throw new Error('Logout request failed.');
+              }
+            })
+            .catch(error => {
+              // Handle any errors that occurred during the logout request
+              console.error('Logout error: ', error);
+            });
+        }
       }
     }
+
 }
 </script>

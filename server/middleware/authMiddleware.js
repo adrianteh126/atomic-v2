@@ -17,7 +17,7 @@ const requireAuth = (req, res, next) => {
       }
     });
   } else {
-    res.redirect('http://localhost:8080/');
+    res.redirect('http://localhost:8081/');
     console.log("No token!!!");
   }
 };
@@ -43,6 +43,5 @@ const checkUser = (req, res, next) => {
     res.status(404).json({ error: 'No token is passed' })
   }
 };
-
 
 module.exports = { requireAuth, checkUser };
